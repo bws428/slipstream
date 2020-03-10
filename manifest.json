@@ -1,0 +1,18 @@
+{
+  "name": "Slipstream",
+  "version": "1.0.0",
+  "description": "Streamline your aviation record keeping.",
+  "icons": { "128": "icon.png" },
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["*://workspace.spirit.com/crewweb/ctwpm.aspx*"],
+      "css": ["lib/normalize.css", "lib/jquery-ui.min.css", "style.css"],
+      "js": [
+        "lib/jquery-3.4.1.min.js",
+        "lib/jquery-ui-1.12.1.min.js",
+        "slipstream.js"
+      ]
+    }
+  ]
+}

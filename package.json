@@ -1,0 +1,35 @@
+{
+  "name": "slipstream",
+  "version": "1.0.0",
+  "description": "Streamline your aviation record keeping.",
+  "dependencies": {
+    "jquery": "3.4.1",
+    "jquery-ui": "1.12.1",
+    "normalize.css": "8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "mocha": "^7.0.1",
+    "prettier": "^1.19.1"
+  },
+  "main": "slipstream.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bws428/slipstream.git"
+  },
+  "keywords": [
+    "airline",
+    "flights",
+    "logbook"
+  ],
+  "author": "Brian D. Wendt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bws428/slipstream/issues"
+  },
+  "homepage": "https://github.com/bws428/slipstream#readme"
+}
