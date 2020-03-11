@@ -196,8 +196,9 @@ function getCrewUrls(menuItems) {
   });
 
   crewUrls.forEach((url, i) => {
-    // Relative URL only? (Future-proof for other airlines)
-    crewUrls[i] = url.match(/"(.*?)"/g)[0].replace(/['"]+/g, "");
+    crewUrls[i] =
+      "https://workspace.spirit.com/crewweb/" +
+      url.match(/"(.*?)"/g)[0].replace(/['"]+/g, "");
   });
 
   return crewUrls;
