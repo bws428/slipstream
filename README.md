@@ -6,4 +6,4 @@ Slipstream is a Chrome browser extension that allows you to export your complete
 
 ## Installation
 
-The current, stable version of Slipstream is available from the [Chrome Web Store](https://chrome.google.com/webstore/category/extensions). To experiment with the development version, check out the [docs page](https://bws428.github.io/slipstream/).
+The current, stable version of Slipstream is available from the [Chrome Web Store](https://chrome.google.com/webstore/detail/slipstream/bokjbdfakchehkhehaomoaihpfoddheo).
