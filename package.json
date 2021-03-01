@@ -1,6 +1,6 @@
 {
   "name": "slipstream",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Streamline your aviation record keeping.",
   "dependencies": {
     "jquery": "^3.5.0",

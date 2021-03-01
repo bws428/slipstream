@@ -7,3 +7,13 @@ Slipstream is a Chrome browser extension that allows you to export your complete
 ## Installation
 
 The current, stable version of Slipstream is available from the [Chrome Web Store](https://chrome.google.com/webstore/detail/slipstream/bokjbdfakchehkhehaomoaihpfoddheo).
+
+## Development
+
+To install Slipstream locally, first clone the repository using the [GitHub CLI](https://cli.github.com/):
+
+`gh repo clone bws428/slipstream`
+
+Next, install all NodeJS dependencies using the [Node package manager](https://www.npmjs.com/):
+
+`npm install`

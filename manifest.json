@@ -1,6 +1,6 @@
 {
   "name": "Slipstream",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Streamline your aviation record keeping.",
   "icons": { "128": "icon.png" },
   "manifest_version": 2,
