@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://workspace.spirit.com/*"
+        "*://workspace.spirit.com/CrewWeb/ctwpm.aspx*"
       ],
       "css": [
         "node_modules/normalize.css/normalize.css",
