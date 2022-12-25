@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Slipstream",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Streamline your aviation record keeping.",
   "icons": { "128": "icon.png" },
   "host_permissions": [
@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/ctwpm.aspx*"
+        "https://workspace.spirit.com/*"
       ],
       "css": [
         "node_modules/normalize.css/normalize.css",
