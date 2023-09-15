@@ -2,9 +2,6 @@
   "name": "slipstream",
   "description": "Streamline your aviation record keeping.",
   "dependencies": {
-    "jquery": "^3.5.0",
-    "jquery-ui-dist": "^1.12.1",
-    "normalize.css": "^8.0.1"
   },
   "main": "slipstream.js",
   "scripts": {},

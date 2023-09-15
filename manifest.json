@@ -1,22 +1,22 @@
 {
   "manifest_version": 3,
   "name": "Slipstream",
-  "version": "1.2.0",
+  "version": "1.3.0",
+  
   "description": "Streamline your aviation record keeping.",
-  "icons": { "128": "icon.png" },
+  "homepage_url": "https://github.com/bws428/slipstream",
+  "icons": { "128": "dist/icon.png" },
+  "default_locale": "en",
+ 
   "content_scripts": [
     {
       "matches": [
         "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/crewweb/ctwpm.aspx*"
       ],
       "css": [
-        "node_modules/normalize.css/normalize.css",
-        "node_modules/jquery-ui-dist/jquery-ui.min.css",
-        "lib/style.css"],
+        "dist/style.css"],
       "js": [
-        "node_modules/jquery/dist/jquery.min.js",
-        "node_modules/jquery-ui-dist/jquery-ui.min.js",
-        "lib/slipstream.js"]
+        "dist/slipstream.js"]
     }
   ]
 }
