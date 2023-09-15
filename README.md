@@ -15,7 +15,7 @@ Slipstream is a web browser extension that allows you to export your completed f
 
 ## Getting Help
 
-If you think you've found a bug, or if you have ideas for new features, please create a new Issue on this project's GitHub page at: https://github.com/bws428/slipstream/issues.
+If you think you've found a bug, or if you have ideas for new features, please [create a new issue](https://github.com/bws428/slipstream/issues) on this project's GitHub page.
 
 ## Supported Airlines
 
