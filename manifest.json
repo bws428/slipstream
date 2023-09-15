@@ -7,6 +7,13 @@
   "homepage_url": "https://github.com/bws428/slipstream",
   "icons": { "128": "dist/icon.png" },
   "default_locale": "en",
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "@slipstream",
+      "strict_min_version": "42.0"
+    }
+  },
  
   "content_scripts": [
     {
@@ -14,9 +21,12 @@
         "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/crewweb/ctwpm.aspx*"
       ],
       "css": [
-        "dist/style.css"],
+        "dist/style.css"
+      ],
       "js": [
-        "dist/slipstream.js"]
+        "node_modules/lodash/lodash.min.js",
+        "dist/slipstream.js"
+      ]
     }
   ]
 }

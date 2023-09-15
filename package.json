@@ -2,6 +2,7 @@
   "name": "slipstream",
   "description": "Streamline your aviation record keeping.",
   "dependencies": {
+    "lodash": "^4.17.21"
   },
   "main": "slipstream.js",
   "scripts": {},
@@ -19,5 +20,5 @@
   "bugs": {
     "url": "https://github.com/bws428/slipstream/issues"
   },
-  "homepage": "https://github.com/bws428/slipstream#readme"
+  "homepage": "https://github.com/bws428/slipstream"
 }
