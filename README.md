@@ -24,10 +24,10 @@ Slipstream currently only works with Spirit Airlines' CrewTrac website. Other ai
 
 ## Installation
 
-The Slipstream extension is available for the following web browsers:
+To install the Slipstream extension, use the links below for your preferred web browser:
 
-* [Google Chrome](https://chrome.google.com/webstore/detail/slipstream/bokjbdfakchehkhehaomoaihpfoddheo)
-* [Firefox]() (coming soon)
+* [Slipstream for Google Chrome](https://chrome.google.com/webstore/detail/slipstream/bokjbdfakchehkhehaomoaihpfoddheo)
+* [Slipstream for Firefox]() (coming soon)
 
 ## Contributing
 
