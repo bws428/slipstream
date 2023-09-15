@@ -24,11 +24,14 @@ Slipstream currently only works with Spirit Airlines' CrewTrac website. Other ai
 
 ## Installation
 
-The current, stable version of Slipstream is available from the [Chrome Web Store](https://chrome.google.com/webstore/detail/slipstream/bokjbdfakchehkhehaomoaihpfoddheo).
+The Slipstream extension is available for the following web browsers:
 
-## Development
+* [Google Chrome](https://chrome.google.com/webstore/detail/slipstream/bokjbdfakchehkhehaomoaihpfoddheo)
+* [Firefox]() (coming soon)
 
-To install Slipstream locally, first clone the repository using the [GitHub CLI](https://cli.github.com/):
+## Contributing
+
+To install Slipstream locally for development, first clone the repository using the [GitHub CLI](https://cli.github.com/):
 
 `gh repo clone bws428/slipstream`
 
