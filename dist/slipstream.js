@@ -2,7 +2,9 @@
 
 "use strict";
 
-$(function() {
+ready(() => {
+  /* Do these things after DOM has fully loaded */
+
   //
   // Define the header row for the CSV file.
   //
@@ -26,20 +28,17 @@ $(function() {
     "SIC Name"
   ];
 
-  // Insert the "Export" button.
-  $("#hideDropPU").before(
+  // Insert the "Export" button to the left of (i.e., before) the "Hide DropPU" dropdown
+  // ...with vanilla JS
+  document.getElementById("hideDropPU").insertAdjacentHTML('beforebegin',
     `<font class="buttontext">
-        <button id="export" type="button" disabled="disabled">
-          &nbsp; Export &nbsp;
-        </button>
-      </font>`
+      <button id="export" type="button" disabled="disabled"></button>
+    </font>`
   );
+  document.getElementById("export").textContent = "Export";
 
-  // Add a link for the user options menu.
-  $("td.pmlabeltext")
-    .next()
-    .after(`<td id="options"><a id="menu" href="#">Export options</a></td>`);
-  $("#menu").hide(); // Don't show the menu just yet.
+
+  
 
   // Add a spot for status messages.
   $("#tbGRID").after(`<div id="status"></div>`);
@@ -94,6 +93,14 @@ $(function() {
 //   Helper Functions
 // ----------------------
 //
+
+/**
+ * Replaces jQuery $(document).ready function
+ */
+function ready(fn) {
+	if (document.readyState !== "loading") fn();
+	else document.addEventListener("DOMContentLoaded", fn);
+}
 
 /**
  * Capitalize only the first letters of a name.
