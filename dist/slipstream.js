@@ -2,15 +2,7 @@
 
 "use strict";
 
-function ready(fn) {
-  if (document.readyState !== 'loading') {
-    fn();
-  } else {
-    document.addEventListener('DOMContentLoaded', fn);
-  }
-}
-
-jQuery(function() {
+$(function() {
   //
   // Define the header row for the CSV file.
   //

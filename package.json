@@ -2,7 +2,7 @@
   "name": "slipstream",
   "description": "Streamline your aviation record keeping.",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "jquery": "^3.7.1"
   },
   "main": "slipstream.js",
   "scripts": {},
