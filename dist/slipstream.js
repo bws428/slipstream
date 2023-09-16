@@ -1,31 +1,31 @@
 /* slipstream.js | MIT License | https://github.com/bws428/slipstream */
 "use strict";
 
+// Define the header row for the CSV file.
+//
+// NOTE: The number and order of the column names must not be changed,
+// but the column names themselves can be altered to match the expected
+// input fields for any given logbook software importer.
+//
+// TODO: Make this a user-configurable option.
+//
+const header = [
+  "Remarks", // Pairing number goes here.
+  "Date",
+  "Flight Number",
+  "From",
+  "To",
+  "Departure Time",
+  "Arrival Time",
+  "Total",
+  "Aircraft ID",
+  "PIC Name",
+  "SIC Name"
+];
+
 ready(() => {
   // Do these things after DOM has fully loaded...
   // ...with vanilla JS
-
-  // Define the header row for the CSV file.
-  //
-  // NOTE: The number and order of the column names must not be changed,
-  // but the column names themselves can be altered to match the expected
-  // input fields for any given logbook software importer.
-  //
-  // TODO: Make this a user-configurable option.
-  //
-  const header = [
-    "Remarks", // Pairing number goes here.
-    "Date",
-    "Flight Number",
-    "From",
-    "To",
-    "Departure Time",
-    "Arrival Time",
-    "Total",
-    "Aircraft ID",
-    "PIC Name",
-    "SIC Name"
-  ];
 
   // Create and insert an "Export" button to the right of the "Print" button.
   // ...with vanilla JS
@@ -40,18 +40,24 @@ ready(() => {
   // Add a spot for status messages at the bottom of the "tbGRID" table.
   // ...with vanilla JS
   const table_grid = document.getElementById("tbGRID");
-  const status_msg = document.createElement("div");
-  status_msg.id = "status_msg";
-  table_grid.insertAdjacentElement("afterend", status_msg);
-
-
+  const status_message = document.createElement("div");
+  status_message.id = "status_msg";
+  table_grid.insertAdjacentElement("afterend", status_message);
 
   // Get the pairing number.
-  const pairing_number = $("#PrgNo").val().toString();
+  // ...with vanilla JS
+  const pairing_number = document.getElementById("PrgNo").value.toString();
 
   // Get the pairing date.
-  const pairing_date = $("#PrgDate").val().replaceAll("/",".").toString();
+  // ...with vanilla JS
+  const pairing_date = document.getElementById("PrgDate").value.replaceAll("/",".").toString();
+
+  // Log the pairing number and date to the console.
+  // ...with vanilla JS
   console.log("Pairing " + pairing_number + " on " + pairing_date);
+
+
+
 
   // Get all the valid flight segments for this pairing.
   let flights = getFlights($('script:contains("gGridText")').text());
@@ -65,7 +71,8 @@ ready(() => {
   // Is there a more elegant way to do this?
   (async () => {
     // Get the crew names asynchronously.
-    const crews = await getCrews(urls, status_msg);
+    // ...with vanilla JS
+    const crews = await getCrews(urls, status_message);
 
     // Add crews to flights.
     // ...with vanilla JS
@@ -235,21 +242,19 @@ function getCrewUrls(menuItems) {
  * @param {Array} crewUrls - An array of URLs.
  * @return {Promise} A list of crew data.
  */
-async function getCrews(crewUrls, status_msg) {
+async function getCrews(crewUrls, status_message) {
   const crews = [];
   const j = crewUrls.length;
 
   for (const [i, url] of crewUrls.entries()) {
-    status_msg.textContent = `Loading crews... ${i + 1} of ${j}`;
-    // $("#status").text(`Loading crews... ${i + 1} of ${j}`);
+    status_message.textContent = `Loading crews... ${i + 1} of ${j}`;
     try {
       const response = await fetch(url);
       const crewHtml = await response.text();
       crews[i] = getCrewNames(crewHtml);
     } catch (error) {
       console.error(error);
-      status_msg.textContent = `Cannot load crew names. Try refreshing the page.`;
-      // $("#status").text(`Cannot load crew names. Try refreshing the page.`);
+      status_message.textContent = `Cannot load crew names. Try refreshing the page.`;
       return;
     }
   }
