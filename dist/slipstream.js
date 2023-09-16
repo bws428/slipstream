@@ -66,27 +66,12 @@ ready(() => {
     el.textContent.includes("gGridText"))[0].text;
   let flights = getFlights(gridText);
 
-
-
-
-
-
-  
-
-
   // Get the crew URLs for all valid flight segments.
-  const urls = getCrewUrls(
-    $("#MenusDIV").find('.rClickMenuItem:contains("Flight Leg Crew")')
-  );
-
-
-
-
-
-
-
-
-
+  // ...with vanilla JS
+  const menusDiv = document.getElementById("MenusDIV");
+  const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((el) =>
+    el.textContent.includes("Flight Leg Crew"));
+  const urls = getCrewUrls(menuItems);
 
   // Must wait for crews to return before doing anything else.
   // Is there a more elegant way to do this?
