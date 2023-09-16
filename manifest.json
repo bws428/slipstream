@@ -6,7 +6,6 @@
   "description": "Streamline your aviation record keeping.",
   "homepage_url": "https://github.com/bws428/slipstream",
   "icons": { "128": "dist/icon.png" },
-  "default_locale": "en",
 
   "browser_specific_settings": {
     "gecko": {
