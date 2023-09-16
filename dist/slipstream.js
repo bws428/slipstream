@@ -2,13 +2,12 @@
 "use strict";
 
 // Define the header row for the CSV file.
-//
+// ...with vanilla JS
 // NOTE: The number and order of the column names must not be changed,
 // but the column names themselves can be altered to match the expected
 // input fields for any given logbook software importer.
 //
 // TODO: Make this a user-configurable option.
-//
 const header = [
   "Remarks", // Pairing number goes here.
   "Date",
@@ -58,9 +57,16 @@ ready(() => {
 
   // Get all the valid flight segments for this pairing.
   // ...with vanilla JS
-  const grid_text = [...document.querySelectorAll("script")].filter((el) =>
+  // NOTE: All the flights data is contained inside a <script> tag under
+  // a variable called "gGridText", so we'll locate all the <script> tags
+  // and select the one that contains the "gGridText" variable. Then we'll
+  // process the raw "gGridText" string with our custom getFlights() function.
+  // https://youmightnotneedjquery.com/#contains_selector
+  const gridText = [...document.querySelectorAll("script")].filter((el) =>
     el.textContent.includes("gGridText"))[0].text;
-  let flights = getFlights(grid_text);
+  let flights = getFlights(gridText);
+
+
 
 
 
