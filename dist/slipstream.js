@@ -23,9 +23,9 @@ const header = [
   "SIC Name"
 ];
 
+// Make sure the DOM is fully loaded and ready...
+// ...with vanilla JS
 ready(() => {
-  // Do these things after DOM has fully loaded...
-  // ...with vanilla JS
 
   // Create and insert an "Export" button to the right of the "Print" button.
   // ...with vanilla JS
@@ -56,16 +56,31 @@ ready(() => {
   // ...with vanilla JS
   console.log("Pairing " + pairing_number + " on " + pairing_date);
 
-
-
-
   // Get all the valid flight segments for this pairing.
-  let flights = getFlights($('script:contains("gGridText")').text());
+  // ...with vanilla JS
+  const grid_text = [...document.querySelectorAll("script")].filter((el) =>
+    el.textContent.includes("gGridText"))[0].text;
+  let flights = getFlights(grid_text);
+
+
+
+
+  
+
 
   // Get the crew URLs for all valid flight segments.
   const urls = getCrewUrls(
     $("#MenusDIV").find('.rClickMenuItem:contains("Flight Leg Crew")')
   );
+
+
+
+
+
+
+
+
+
 
   // Must wait for crews to return before doing anything else.
   // Is there a more elegant way to do this?
@@ -93,7 +108,7 @@ ready(() => {
 
     // Ready to export.
     // ...with vanilla JS
-    status_msg.textContent = "Ready to export.";
+    status_message.textContent = "Ready to export.";
     export_button.disabled = false;
 
     // Download flights CSV when "Export" button is clicked.
@@ -117,6 +132,19 @@ ready(() => {
 function ready(fn) {
 	if (document.readyState !== "loading") fn();
 	else document.addEventListener("DOMContentLoaded", fn);
+}
+
+/**
+ * Find an HTML selector with a certain term inside and return the contents.
+ * @param {string} selector - An HTML selector.
+ * @param {string} text - Search term.
+ * @return {Array} The contents of the selector.
+ */
+function contains(selector, text) {
+  var elements = document.querySelectorAll(selector);
+  return [].filter.call(elements, function(element){
+    return RegExp(text).test(element.textContent);
+  });
 }
 
 /**
