@@ -118,24 +118,11 @@ ready(() => {
 
 /**
  * Replaces jQuery $(document).ready function
- * // ...with vanilla JS
+ * ...with vanilla JS
  */
 function ready(fn) {
 	if (document.readyState !== "loading") fn();
 	else document.addEventListener("DOMContentLoaded", fn);
-}
-
-/**
- * Find an HTML selector with a certain term inside and return the contents.
- * @param {string} selector - An HTML selector.
- * @param {string} text - Search term.
- * @return {Array} The contents of the selector.
- */
-function contains(selector, text) {
-  var elements = document.querySelectorAll(selector);
-  return [].filter.call(elements, function(element){
-    return RegExp(text).test(element.textContent);
-  });
 }
 
 /**
@@ -176,8 +163,6 @@ function downloadCsv(csv, pairing_number, pairing_date) {
   a.target = "_blank";
   a.download = pairing_number + "-" + pairing_date + ".csv";
   a.click();
-  // Why is pairing_date undefined here?
-  console.log("Pairing " + pairing_number + " on " + pairing_date);
 }
 
 /**
