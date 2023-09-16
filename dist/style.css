@@ -6,17 +6,13 @@ body {
   background-color: #f8f9fa;
 }
 
-#export {
-  margin-right: 5px !important;
+#export_btn {
+  margin-left: 4px; 
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-#options {
-  width: 140px;
-  padding-right: 12px;
-  text-align: right;
-}
-
-#status {
+#status_msg {
   padding-top: 5px;
   padding-right: 5px;
   text-align: right;

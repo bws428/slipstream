@@ -1,11 +1,10 @@
 /* slipstream.js | MIT License | https://github.com/bws428/slipstream */
-
 "use strict";
 
 ready(() => {
-  /* Do these things after DOM has fully loaded */
+  // Do these things after DOM has fully loaded...
+  // ...with vanilla JS
 
-  //
   // Define the header row for the CSV file.
   //
   // NOTE: The number and order of the column names must not be changed,
@@ -28,20 +27,24 @@ ready(() => {
     "SIC Name"
   ];
 
-  // Insert the "Export" button to the left of (i.e., before) the "Hide DropPU" dropdown
+  // Create and insert an "Export" button to the right of the "Print" button.
   // ...with vanilla JS
-  document.getElementById("hideDropPU").insertAdjacentHTML('beforebegin',
-    `<font class="buttontext">
-      <button id="export" type="button" disabled="disabled"></button>
-    </font>`
-  );
-  document.getElementById("export").textContent = "Export";
+  const print_button = document.getElementById("btnPRINT");
+  const export_button = document.createElement("button");
+  export_button.id = "export_btn";
+  export_button.type = "button";
+  export_button.disabled = true;
+  export_button.textContent = "Export";
+  print_button.insertAdjacentElement("afterend", export_button);
+
+  // Add a spot for status messages at the bottom of the "tbGRID" table.
+  // ...with vanilla JS
+  const table_grid = document.getElementById("tbGRID");
+  const status_msg = document.createElement("div");
+  status_msg.id = "status_msg";
+  table_grid.insertAdjacentElement("afterend", status_msg);
 
 
-  
-
-  // Add a spot for status messages.
-  $("#tbGRID").after(`<div id="status"></div>`);
 
   // Get the pairing number.
   const pairing_number = $("#PrgNo").val().toString();
@@ -62,27 +65,33 @@ ready(() => {
   // Is there a more elegant way to do this?
   (async () => {
     // Get the crew names asynchronously.
-    const crews = await getCrews(urls);
+    const crews = await getCrews(urls, status_msg);
 
     // Add crews to flights.
+    // ...with vanilla JS
     flights = addCrews(flights, crews);
 
     // Turn flights object into a 2D array.
+    // ...with vanilla JS
     const table = buildTable(flights, pairing_number);
 
     // Log flights to console.
+    // ...with vanilla JS
     console.log("flights: ", flights);
 
     // Build the CSV file string and log to console.
+    // ...with vanilla JS
     const csv = buildCsv(header, table);
     console.log(csv);
 
     // Ready to export.
-    $("#status").text("Ready to export.");
-    $("#export").prop("disabled", false);
+    // ...with vanilla JS
+    status_msg.textContent = "Ready to export.";
+    export_button.disabled = false;
 
     // Download flights CSV when "Export" button is clicked.
-    $("#export").on( "click", function() {
+    // ...with vanilla JS
+    export_button.addEventListener("click", function() {
       downloadCsv(csv, pairing_number, pairing_date);
     });
   })();
@@ -96,6 +105,7 @@ ready(() => {
 
 /**
  * Replaces jQuery $(document).ready function
+ * // ...with vanilla JS
  */
 function ready(fn) {
 	if (document.readyState !== "loading") fn();
@@ -225,19 +235,21 @@ function getCrewUrls(menuItems) {
  * @param {Array} crewUrls - An array of URLs.
  * @return {Promise} A list of crew data.
  */
-async function getCrews(crewUrls) {
+async function getCrews(crewUrls, status_msg) {
   const crews = [];
   const j = crewUrls.length;
 
   for (const [i, url] of crewUrls.entries()) {
-    $("#status").text(`Loading crews... ${i + 1} of ${j}`);
+    status_msg.textContent = `Loading crews... ${i + 1} of ${j}`;
+    // $("#status").text(`Loading crews... ${i + 1} of ${j}`);
     try {
       const response = await fetch(url);
       const crewHtml = await response.text();
       crews[i] = getCrewNames(crewHtml);
     } catch (error) {
       console.error(error);
-      $("#status").text(`Cannot load crew names. Try refreshing the page.`);
+      status_msg.textContent = `Cannot load crew names. Try refreshing the page.`;
+      // $("#status").text(`Cannot load crew names. Try refreshing the page.`);
       return;
     }
   }
