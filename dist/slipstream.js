@@ -228,10 +228,12 @@ function getFlights(gridText) {
 function getCrewUrls(menuItems) {
   const crewUrls = [];
 
-  $(menuItems).each(function(i) {
-    crewUrls[i] = $(this).attr("onclick");
+  // Get the value of the "onclick" attribute from each menu item.
+  menuItems.forEach((menuItem, i) => {
+    crewUrls[i] = menuItem.getAttribute("onclick");
   });
 
+  // Build a crew URL for each flight leg.
   crewUrls.forEach((url, i) => {
     crewUrls[i] =
       "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/" +
