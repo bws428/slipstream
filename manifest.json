@@ -16,8 +16,12 @@
  
   "content_scripts": [
     {
-      "matches": "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/crewweb/ctwpm.aspx*",
-      "css": "dist/style.css",
+      "matches": [
+        "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/crewweb/ctwpm.aspx*"
+      ],
+      "css": [
+        "dist/style.css"
+      ],
       "js": [
         "node_modules/jquery/dist/jquery.min.js",
         "dist/slipstream.js"
