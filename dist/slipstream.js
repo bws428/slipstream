@@ -80,10 +80,10 @@ $(function() {
 
     // Ready to export.
     $("#status").text("Ready to export.");
-    $("#export").prop("disabled", false).effect("pulsate", { times: 2 }, 1200);
+    $("#export").prop("disabled", false);
 
     // Download flights CSV when "Export" button is clicked.
-    $("#export").click(function() {
+    $("#export").on( "click", function() {
       downloadCsv(csv, pairing_number, pairing_date);
     });
   })();
