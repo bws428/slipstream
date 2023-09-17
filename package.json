@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/bws428/slipstream/issues"
   },
-  "homepage": "https://github.com/bws428/slipstream"
+  "homepage": "https://github.com/bws428/slipstream",
+  "dependencies": {
+    "jquery": "^3.7.1"
+  }
 }

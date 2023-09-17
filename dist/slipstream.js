@@ -256,12 +256,17 @@ async function getCrews(crewUrls, status_message) {
     status_message.textContent = `Loading crews... ${i + 1} of ${j}`;
     try {
       const response = await fetch(url);
-      const crewHtml = await response.text();
+      const responseText = await response.text();
+      // Need to convert the string to an HTML document
+      const crewHtml = new DOMParser().parseFromString(responseText, "text/html");
       crews[i] = getCrewNames(crewHtml);
+
     } catch (error) {
+
       console.error(error);
       status_message.textContent = `Cannot load crew names. Try refreshing the page.`;
       return;
+
     }
   }
 
@@ -270,17 +275,35 @@ async function getCrews(crewUrls, status_message) {
 
 /**
  * Get the crew names for a single flight leg.
- * @param {string} crewHtml - The flight leg crew HTML string.
+ * @param {Document} crewHtml - The flight leg crew HTML document.
  * @return {Object} The crew names object.
  */
 function getCrewNames(crewHtml) {
+
   const crewNames = {
-    fltNum: $(crewHtml).find("#lblFlightNo").text().replace(/\b0+/g, ""),
-    orig: $(crewHtml).find("#lblDeptCity").text(),
-    dest: $(crewHtml).find("#lblArrvCity").text(),
+    fltNum: crewHtml.getElementById("lblFlightNo").textContent.replace(/\b0+/g, ""),
+    orig: crewHtml.getElementById("lblDeptCity").textContent,
+    dest: crewHtml.getElementById("lblArrvCity").textContent,
     crew: []
   };
-  const crewTable = $(crewHtml).find("#dgFlightCrew");
+
+  const crewTable = crewHtml.getElementById("dgFlightCrew");
+
+
+
+
+  // THIS IS THE LAST SECTION THAT REFERENCES JQUERY !!!!
+  //crewUrls.forEach((url, i) => {}
+  // Okay, so crewTable is an HTML <table> element
+  // We need to find all the <tr> elements in the table
+  // And for each <tr>, we need to find specific <td> elements
+  // and assign their values to a row in the crew[] array.
+
+  let PUP = crewTable.querySelectorAll("tr");
+  console.log(PUP);
+
+  const pupItems = [...crewTable.querySelectorAll("tr")].filter((el) =>
+    el.textContent.includes("td"));
 
   $("tr", $(crewTable)).each(function(row, tr) {
     crewNames.crew[row] = {
@@ -292,6 +315,14 @@ function getCrewNames(crewHtml) {
       )
     };
   });
+
+
+
+
+
+
+
+
   crewNames.crew.shift();
 
   return crewNames;
