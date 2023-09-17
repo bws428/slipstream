@@ -289,22 +289,13 @@ function getCrewNames(crewHtml) {
 
   const crewTable = crewHtml.getElementById("dgFlightCrew");
 
-
-
-
-  // THIS IS THE LAST SECTION THAT REFERENCES JQUERY !!!!
-  //crewUrls.forEach((url, i) => {}
-  // Okay, so crewTable is an HTML <table> element
-  // We need to find all the <tr> elements in the table
+  // Okay, crewTable is an HTML <table> element.
+  // We need to iterate over all the <tr> elements in the table
   // And for each <tr>, we need to find specific <td> elements
   // and assign their values to a row in the crew[] array.
-
-  // const pupItems = [...crewTable.querySelectorAll("tr")].filter((el) =>
-  //   el.textContent.includes("td"));
   const crewRows = crewTable.querySelectorAll("tr");
 
-
-  $("tr", $(crewTable)).each(function(row, tr) {
+  crewRows.forEach((tr, row) => {
     crewNames.crew[row] = {
       role: tr.querySelectorAll("td")[0].textContent.trim(),
       dh: tr.querySelectorAll("td")[1].textContent.trim(),
@@ -313,23 +304,8 @@ function getCrewNames(crewHtml) {
       first: capitalize( tr.querySelectorAll("td")[5].textContent.trim() )
     };
   });
-  
 
-  // I can't figure out what exactly this is doing..... :(
-  // $("tr", $(crewTable)).each(function(row, tr) {
-  //   crewNames.crew[row] = {
-  //     role: $(tr).find("td:eq(0)").text().trim(),
-  //     dh: $(tr).find("td:eq(1)").text().trim(),
-  //     id: $(tr).find("td:eq(3)").text().trim(),
-  //     last: capitalize($(tr).find("td:eq(4)").text().trim()),
-  //     first: capitalize($(tr).find("td:eq(5)").text().trim()
-  //     )
-  //   };
-  // });
-
-
-
-
+  // Why do we do this?
   crewNames.crew.shift();
 
   return crewNames;
