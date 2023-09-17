@@ -2,7 +2,6 @@
 "use strict";
 
 // Define the header row for the CSV file.
-// ...with vanilla JS
 // NOTE: The number and order of the column names must not be changed,
 // but the column names themselves can be altered to match the expected
 // input fields for any given logbook software importer.
@@ -27,7 +26,6 @@ const header = [
 ready(() => {
 
   // Create and insert an "Export" button to the right of the "Print" button.
-  // ...with vanilla JS
   const print_button = document.getElementById("btnPRINT");
   const export_button = document.createElement("button");
   export_button.id = "export_btn";
@@ -37,26 +35,21 @@ ready(() => {
   print_button.insertAdjacentElement("afterend", export_button);
 
   // Add a spot for status messages at the bottom of the "tbGRID" table.
-  // ...with vanilla JS
   const table_grid = document.getElementById("tbGRID");
   const status_message = document.createElement("div");
   status_message.id = "status_msg";
   table_grid.insertAdjacentElement("afterend", status_message);
 
   // Get the pairing number.
-  // ...with vanilla JS
   const pairing_number = document.getElementById("PrgNo").value.toString();
 
   // Get the pairing date.
-  // ...with vanilla JS
   const pairing_date = document.getElementById("PrgDate").value.replaceAll("/",".").toString();
 
   // Log the pairing number and date to the console.
-  // ...with vanilla JS
   console.log("Pairing " + pairing_number + " on " + pairing_date);
 
   // Get all the valid flight segments for this pairing.
-  // ...with vanilla JS
   // NOTE: All the flights data is contained inside a <script> tag under
   // a variable called "gGridText", so we'll locate all the <script> tags
   // and select the one that contains the "gGridText" variable. Then we'll
@@ -67,7 +60,6 @@ ready(() => {
   let flights = getFlights(gridText);
 
   // Get the crew URLs for all valid flight segments.
-  // ...with vanilla JS
   const menusDiv = document.getElementById("MenusDIV");
   const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((el) =>
     el.textContent.includes("Flight Leg Crew"));
@@ -77,33 +69,26 @@ ready(() => {
   // Is there a more elegant way to do this?
   (async () => {
     // Get the crew names asynchronously.
-    // ...with vanilla JS
     const crews = await getCrews(urls, status_message);
 
     // Add crews to flights.
-    // ...with vanilla JS
     flights = addCrews(flights, crews);
 
     // Turn flights object into a 2D array.
-    // ...with vanilla JS
     const table = buildTable(flights, pairing_number);
 
     // Log flights to console.
-    // ...with vanilla JS
     console.log("flights: ", flights);
 
     // Build the CSV file string and log to console.
-    // ...with vanilla JS
     const csv = buildCsv(header, table);
     console.log(csv);
 
     // Ready to export.
-    // ...with vanilla JS
     status_message.textContent = "Ready to export.";
     export_button.disabled = false;
 
     // Download flights CSV when "Export" button is clicked.
-    // ...with vanilla JS
     export_button.addEventListener("click", function() {
       downloadCsv(csv, pairing_number, pairing_date);
     });
