@@ -2,7 +2,9 @@
   "name": "slipstream",
   "description": "Streamline your aviation record keeping.",
   "main": "slipstream.js",
-  "scripts": {},
+  "scripts": {
+    "lint":"eslint"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bws428/slipstream.git"
@@ -17,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/bws428/slipstream/issues"
   },
-  "homepage": "https://github.com/bws428/slipstream"
+  "homepage": "https://github.com/bws428/slipstream",
+  "devDependencies": {
+    "eslint": "^8.49.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1"
+  }
 }

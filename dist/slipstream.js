@@ -1,5 +1,6 @@
 /* slipstream.js | MIT License | https://github.com/bws428/slipstream */
-"use strict";
+
+'use strict';
 
 // Define the header row for the CSV file.
 // NOTE: The number and order of the column names must not be changed,
@@ -8,46 +9,47 @@
 //
 // TODO: Make this a user-configurable option.
 const header = [
-  "Remarks", // Pairing number goes here.
-  "Date",
-  "Flight Number",
-  "From",
-  "To",
-  "Departure Time",
-  "Arrival Time",
-  "Total",
-  "Aircraft ID",
-  "PIC Name",
-  "SIC Name"
+  'Remarks', // Pairing number goes here.
+  'Date',
+  'Flight Number',
+  'From',
+  'To',
+  'Departure Time',
+  'Arrival Time',
+  'Total',
+  'Aircraft ID',
+  'PIC Name',
+  'SIC Name',
 ];
 
 // Make sure the DOM is fully loaded and ready...
 // ...with vanilla JS
 ready(() => {
-
   // Create and insert an "Export" button to the right of the "Print" button.
-  const print_button = document.getElementById("btnPRINT");
-  const export_button = document.createElement("button");
-  export_button.id = "export_btn";
-  export_button.type = "button";
-  export_button.disabled = true;
-  export_button.textContent = "Export";
-  print_button.insertAdjacentElement("afterend", export_button);
+  const printButton = document.getElementById('btnPRINT');
+  const exportButton = document.createElement('button');
+  exportButton.id = 'export_btn';
+  exportButton.type = 'button';
+  exportButton.disabled = true;
+  exportButton.textContent = 'Export';
+  printButton.insertAdjacentElement('afterend', exportButton);
 
-  // Add a spot for status messages at the bottom of the "tbGRID" table.
-  const table_grid = document.getElementById("tbGRID");
-  const status_message = document.createElement("div");
-  status_message.id = "status_msg";
-  table_grid.insertAdjacentElement("afterend", status_message);
+  // Create a new <div> for status messages.
+  const statusMessage = document.createElement('div');
+  statusMessage.id = 'status_msg';
+
+  // Insert the status messages at the bottom of the "tbGRID" table.
+  const tbGrid = document.getElementById('tbGRID');
+  tbGrid.insertAdjacentElement('afterend', statusMessage);
 
   // Get the pairing number.
-  const pairing_number = document.getElementById("PrgNo").value.toString();
+  const pairingNumber = document.getElementById('PrgNo').value.toString();
 
   // Get the pairing date.
-  const pairing_date = document.getElementById("PrgDate").value.replaceAll("/",".").toString();
+  const pairingDate = document.getElementById('PrgDate').value.replaceAll('/', '.').toString();
 
   // Log the pairing number and date to the console.
-  console.log("Pairing " + pairing_number + " on " + pairing_date);
+  console.log(`Pairing ${pairingNumber} on ${pairingDate}`);
 
   // Get all the valid flight segments for this pairing.
   // NOTE: All the flights data is contained inside a <script> tag under
@@ -55,42 +57,42 @@ ready(() => {
   // and select the one that contains the "gGridText" variable. Then we'll
   // process the raw "gGridText" string with our custom getFlights() function.
   // https://youmightnotneedjquery.com/#contains_selector
-  const gridText = [...document.querySelectorAll("script")].filter((el) =>
-    el.textContent.includes("gGridText"))[0].text;
+  const gridText = [...document.querySelectorAll('script')].filter((el) => (
+    el.textContent.includes('gGridText'))[0].text);
   let flights = getFlights(gridText);
 
   // Get the crew URLs for all valid flight segments.
-  const menusDiv = document.getElementById("MenusDIV");
-  const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((el) =>
-    el.textContent.includes("Flight Leg Crew"));
+  const menusDiv = document.getElementById('MenusDIV');
+  const menuItems = [...menusDiv.querySelectorAll('.rClickMenuItem')].filter((el) => (
+    el.textContent.includes('Flight Leg Crew')));
   const urls = getCrewUrls(menuItems);
 
   // Must wait for crews to return before doing anything else.
   // Is there a more elegant way to do this?
   (async () => {
     // Get the crew names asynchronously.
-    const crews = await getCrews(urls, status_message);
+    const crews = await getCrews(urls, statusMessage);
 
     // Add crews to flights.
     flights = addCrews(flights, crews);
 
     // Turn flights object into a 2D array.
-    const table = buildTable(flights, pairing_number);
+    const table = buildTable(flights, pairingNumber);
 
     // Log flights to console.
-    console.log("flights: ", flights);
+    console.log('flights: ', flights);
 
     // Build the CSV file string and log to console.
     const csv = buildCsv(header, table);
     console.log(csv);
 
     // Ready to export.
-    status_message.textContent = "Ready to export.";
-    export_button.disabled = false;
+    statusMessage.textContent = 'Ready to export.';
+    exportButton.disabled = false;
 
     // Download flights CSV when "Export" button is clicked.
-    export_button.addEventListener("click", function() {
-      downloadCsv(csv, pairing_number, pairing_date);
+    exportButton.addEventListener('click', () => {
+      downloadCsv(csv, pairingNumber, pairingDate);
     });
   })();
 });
@@ -106,8 +108,8 @@ ready(() => {
  * ...with vanilla JS
  */
 function ready(fn) {
-	if (document.readyState !== "loading") fn();
-	else document.addEventListener("DOMContentLoaded", fn);
+  if (document.readyState !== 'loading') fn();
+  else document.addEventListener('DOMContentLoaded', fn);
 }
 
 /**
@@ -116,21 +118,19 @@ function ready(fn) {
  * @return {string} The capitalized name(s).
  */
 function capitalize(names) {
-  return (names.toLowerCase() + "").replace(/^([a-z])|\s+([a-z])/g, $1 => {
-    return $1.toUpperCase();
-  });
+  return (`${names.toLowerCase()}`).replace(/^([a-z])|\s+([a-z])/g, ($1) => $1.toUpperCase());
 }
 
 /**
  * Build a properly-formatted CSV file from a 2D array.
- * @param {Array} header - An list of column header fields.
+ * @param {Array} csvHead - An list of column header fields.
  * @param {Array} table - A 2D array of data.
  * @return {string} - A CSV-formatted string.
  */
-function buildCsv(header, table) {
-  let csv = header.join(",") + "\n";
-  table.forEach(row => {
-    csv += row.join(",") + "\n";
+function buildCsv(csvHead, table) {
+  let csv = `${csvHead.join(',')}\n`;
+  table.forEach((row) => {
+    csv += `${row.join(',')}\n`;
   });
 
   return csv;
@@ -139,14 +139,14 @@ function buildCsv(header, table) {
 /**
  * Download a formatted string as a CSV file.
  * @param {string} csv - A CSV-formatted string.
- * @param {string} pairing_number - The pairing number.
- * @param {string} pairing_date - The pairing start date.
+ * @param {string} pairingNumber - The pairing number.
+ * @param {string} pairingDate - The pairing start date.
  */
-function downloadCsv(csv, pairing_number, pairing_date) {
-  const a = document.createElement("a");
-  a.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
-  a.target = "_blank";
-  a.download = pairing_number + "-" + pairing_date + ".csv";
+function downloadCsv(csv, pairingNumber, pairingDate) {
+  const a = document.createElement('a');
+  a.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
+  a.target = '_blank';
+  a.download = `${pairingNumber}-${pairingDate}.csv`;
   a.click();
 }
 
@@ -158,49 +158,48 @@ function downloadCsv(csv, pairing_number, pairing_date) {
 function getFlights(gridText) {
   // Get value of "gGridText" var from input string and return an array of legs.
   let flights = [];
-  flights = gridText.split("'")[1].split("-");
+  flights = gridText.split("'")[1].split('-');
 
   // Discard all rows that are not valid flight segments ("L:").
-  flights = flights.filter(entry => {
-    return entry.substring(0, 3).search("L:") !== -1;
-  });
+  flights = flights.filter((entry) => entry.substring(0, 3).search('L:') !== -1);
 
   // Split each row string into an array of data fields.
   flights.forEach((row, i) => {
-    flights[i] = row.split("::");
+    flights[i] = row.split('::');
   });
 
   // Build an array of flight segment objects from the flights table.
-  let tail_number;
+  let tailNumber;
   flights.forEach((row, i) => {
-    tail_number = row[18].trim();
+    tailNumber = row[18].trim();
     // Last 3 digits of the ship number should be the tail number.
-    if (tail_number.length > 3) {
-      tail_number = tail_number.slice(-3);
+    if (tailNumber.length > 3) {
+      tailNumber = tailNumber.slice(-3);
     }
 
     flights[i] = {
       dh: row[7].trim(),
       date: row[4].trim(),
       code: row[5].trim(),
-      fltNum: row[6].trim().replace(/\b0+/g, ""),
+      fltNum: row[6].trim().replace(/\b0+/g, ''),
       orig: row[8].trim(),
       dest: row[9].trim(),
       depart: row[10].trim(),
       arrive: row[11].trim(),
       block: row[12].trim(),
-      tail: "N" + tail_number + "NK",
-      crew: []
+      tail: `N${tailNumber}NK`,
+      crew: [],
     };
   });
 
   // Flights with no OA entry are, by default, NKS flights.
-  flights.forEach(flight => {
-    if (!flight.code) flight.code = "NKS";
+  flights.forEach((flight) => {
+    // eslint-disable-next-line no-param-reassign
+    if (!flight.code) flight.code = 'NKS';
   });
 
   // Filter out DH legs.
-  flights = flights.filter(flight => flight.dh == "");
+  flights = flights.filter((flight) => flight.dh === '');
 
   return flights;
 }
@@ -215,14 +214,13 @@ function getCrewUrls(menuItems) {
 
   // Get the value of the "onclick" attribute from each menu item.
   menuItems.forEach((menuItem, i) => {
-    crewUrls[i] = menuItem.getAttribute("onclick");
+    crewUrls[i] = menuItem.getAttribute('onclick');
   });
 
   // Build a crew URL for each flight leg.
   crewUrls.forEach((url, i) => {
-    crewUrls[i] =
-      "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/" +
-      url.match(/"(.*?)"/g)[0].replace(/['"]+/g, "");
+    crewUrls[i] = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${
+      url.match(/"(.*?)"/g)[0].replace(/['"]+/g, '')}`;
   });
 
   return crewUrls;
@@ -233,28 +231,30 @@ function getCrewUrls(menuItems) {
  * @param {Array} crewUrls - An array of URLs.
  * @return {Promise} A list of crew data.
  */
-async function getCrews(crewUrls, status_message) {
+async function getCrews(crewUrls, statusMessage) {
   const crews = [];
   const j = crewUrls.length;
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const [i, url] of crewUrls.entries()) {
-    status_message.textContent = `Loading crews... ${i + 1} of ${j}`;
+    // eslint-disable-next-line no-param-reassign
+    statusMessage.textContent = `Loading crews... ${i + 1} of ${j}`;
     try {
+      // eslint-disable-next-line no-await-in-loop
       const response = await fetch(url);
+      // eslint-disable-next-line no-await-in-loop
       const responseText = await response.text();
       // Need to convert the string to an HTML document
-      const crewHtml = new DOMParser().parseFromString(responseText, "text/html");
+      const crewHtml = new DOMParser().parseFromString(responseText, 'text/html');
       crews[i] = getCrewNames(crewHtml);
-
     } catch (error) {
-
       console.error(error);
-      status_message.textContent = `Cannot load crew names. Try refreshing the page.`;
+      // eslint-disable-next-line no-param-reassign
+      statusMessage.textContent = 'Cannot load crew names. Try refreshing the page.';
       return;
-
     }
   }
-
+  // eslint-disable-next-line consistent-return
   return crews;
 }
 
@@ -264,29 +264,28 @@ async function getCrews(crewUrls, status_message) {
  * @return {Object} The crew names object.
  */
 function getCrewNames(crewHtml) {
-
   const crewNames = {
-    fltNum: crewHtml.getElementById("lblFlightNo").textContent.replace(/\b0+/g, ""),
-    orig: crewHtml.getElementById("lblDeptCity").textContent,
-    dest: crewHtml.getElementById("lblArrvCity").textContent,
-    crew: []
+    fltNum: crewHtml.getElementById('lblFlightNo').textContent.replace(/\b0+/g, ''),
+    orig: crewHtml.getElementById('lblDeptCity').textContent,
+    dest: crewHtml.getElementById('lblArrvCity').textContent,
+    crew: [],
   };
 
-  const crewTable = crewHtml.getElementById("dgFlightCrew");
+  const crewTable = crewHtml.getElementById('dgFlightCrew');
 
   // Okay, crewTable is an HTML <table> element.
   // We need to iterate over all the <tr> elements in the table
   // And for each <tr>, we need to find specific <td> elements
   // and assign their values to a row in the crew[] array.
-  const crewRows = crewTable.querySelectorAll("tr");
+  const crewRows = crewTable.querySelectorAll('tr');
 
   crewRows.forEach((tr, row) => {
     crewNames.crew[row] = {
-      role: tr.querySelectorAll("td")[0].textContent.trim(),
-      dh: tr.querySelectorAll("td")[1].textContent.trim(),
-      id: tr.querySelectorAll("td")[3].textContent.trim(),
-      last: capitalize( tr.querySelectorAll("td")[4].textContent.trim() ),
-      first: capitalize( tr.querySelectorAll("td")[5].textContent.trim() )
+      role: tr.querySelectorAll('td')[0].textContent.trim(),
+      dh: tr.querySelectorAll('td')[1].textContent.trim(),
+      id: tr.querySelectorAll('td')[3].textContent.trim(),
+      last: capitalize(tr.querySelectorAll('td')[4].textContent.trim()),
+      first: capitalize(tr.querySelectorAll('td')[5].textContent.trim()),
     };
   });
 
@@ -303,13 +302,14 @@ function getCrewNames(crewHtml) {
  * @return {Array} Complete flights object with crew names.
  */
 function addCrews(flights, crews) {
-  flights.forEach(flight => {
-    crews.forEach(leg => {
+  flights.forEach((flight) => {
+    crews.forEach((leg) => {
       if (
-        leg.fltNum == flight.fltNum &&
-        leg.orig == flight.orig &&
-        leg.dest == flight.dest
+        leg.fltNum === flight.fltNum
+        && leg.orig === flight.orig
+        && leg.dest === flight.dest
       ) {
+        // eslint-disable-next-line no-param-reassign
         flight.crew = leg.crew;
       }
     });
@@ -321,14 +321,14 @@ function addCrews(flights, crews) {
 /**
  * Build the flights table from the flights object.
  * @param {Array} flights - The flights object.
- * @param {string} pairing_number - The pairing number.
+ * @param {string} pairingNumber - The pairing number.
  * @return {Array} The complete flights table.
  */
-function buildTable(flights, pairing_number) {
+function buildTable(flights, pairingNumber) {
   const table = [];
   flights.forEach((flight, i) => {
     table[i] = [];
-    table[i][0] = pairing_number;
+    table[i][0] = pairingNumber;
     table[i][1] = flight.date;
     table[i][2] = flight.code + flight.fltNum;
     table[i][3] = flight.orig;
@@ -337,11 +337,11 @@ function buildTable(flights, pairing_number) {
     table[i][6] = flight.arrive;
     table[i][7] = flight.block;
     table[i][8] = flight.tail;
-    flight.crew.forEach(name => {
-      if (!name.dh && name.role == "CA") {
+    flight.crew.forEach((name) => {
+      if (!name.dh && name.role === 'CA') {
         table[i][9] = `"${name.id} ${name.last}, ${name.first}"`;
       }
-      if (!name.dh && name.role == "FO") {
+      if (!name.dh && name.role === 'FO') {
         table[i][10] = `"${name.id} ${name.last}, ${name.first}"`;
       }
     });
