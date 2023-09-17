@@ -302,30 +302,30 @@ function getCrewNames(crewHtml) {
   // const pupItems = [...crewTable.querySelectorAll("tr")].filter((el) =>
   //   el.textContent.includes("td"));
   const crewRows = crewTable.querySelectorAll("tr");
-  console.log(crewRows);
+
+
+  $("tr", $(crewTable)).each(function(row, tr) {
+    crewNames.crew[row] = {
+      role: tr.querySelectorAll("td")[0].textContent.trim(),
+      dh: tr.querySelectorAll("td")[1].textContent.trim(),
+      id: tr.querySelectorAll("td")[3].textContent.trim(),
+      last: capitalize( tr.querySelectorAll("td")[4].textContent.trim() ),
+      first: capitalize( tr.querySelectorAll("td")[5].textContent.trim() )
+    };
+  });
+  
+
+  // I can't figure out what exactly this is doing..... :(
   // $("tr", $(crewTable)).each(function(row, tr) {
   //   crewNames.crew[row] = {
-  //     role: tr.querySelectorAll("td:nth-of-type(0)").textContent.trim(),
-  //     dh: tr.querySelectorAll("td:nth-of-type(1)").textContent.trim(),
-  //     id: tr.querySelectorAll("td:nth-of-type(3)").textContent.trim(),
+  //     role: $(tr).find("td:eq(0)").text().trim(),
+  //     dh: $(tr).find("td:eq(1)").text().trim(),
+  //     id: $(tr).find("td:eq(3)").text().trim(),
   //     last: capitalize($(tr).find("td:eq(4)").text().trim()),
   //     first: capitalize($(tr).find("td:eq(5)").text().trim()
   //     )
   //   };
   // });
-  
-
-  // I can't figure out what exactly this is doing..... :(
-  $("tr", $(crewTable)).each(function(row, tr) {
-    crewNames.crew[row] = {
-      role: $(tr).find("td:eq(0)").text().trim(),
-      dh: $(tr).find("td:eq(1)").text().trim(),
-      id: $(tr).find("td:eq(3)").text().trim(),
-      last: capitalize($(tr).find("td:eq(4)").text().trim()),
-      first: capitalize($(tr).find("td:eq(5)").text().trim()
-      )
-    };
-  });
 
 
 
