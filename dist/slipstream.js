@@ -155,27 +155,12 @@ function downloadCsv(csv, pairingNumber, pairingDate) {
  */
 function getFlights(gridText) {
   // Get value of "gGridText" var from input string and return an array of legs.
-  let flights = [];
-  flights = gridText.split("'")[1].split('-');
-
-  // Discard all rows that are not valid flight segments ("L:").
-  flights = flights.filter((entry) => entry.substring(0, 3).search('L:') !== -1);
-
-  // Split each row string into an array of data fields.
-  flights.forEach((row, i) => {
-    flights[i] = row.split('::');
-  });
+  const flights = gridText.split("'")[1].split('-').filter((entry) => entry.substring(0, 3).search('L:') !== -1).map((row) => row.split('::'));
 
   // Build an array of flight segment objects from the flights table.
-  let tailNumber;
-  flights.forEach((row, i) => {
-    tailNumber = row[18].trim();
-    // Last 3 digits of the ship number should be the tail number.
-    if (tailNumber.length > 3) {
-      tailNumber = tailNumber.slice(-3);
-    }
-
-    flights[i] = {
+  return flights.map((row) => {
+    const tailNumber = row[18].trim().slice(-3);
+    return {
       dh: row[7].trim(),
       date: row[4].trim(),
       code: row[5].trim(),
@@ -188,19 +173,9 @@ function getFlights(gridText) {
       tail: `N${tailNumber}NK`,
       crew: [],
     };
-  });
-
-  // Flights with no OA entry are, by default, NKS flights.
-  flights.forEach((flight) => {
-    // eslint-disable-next-line no-param-reassign
-    if (!flight.code) flight.code = 'NKS';
-  });
-
-  // Filter out DH legs.
-  flights = flights.filter((flight) => flight.dh === '');
-
-  return flights;
+  }).filter((flight) => flight.dh === '');
 }
+
 
 /**
  * Get a list of URLs to find the crew names for each flight segment.
@@ -208,21 +183,13 @@ function getFlights(gridText) {
  * @return {Array} A list of crew URLs.
  */
 function getCrewUrls(menuItems) {
-  const crewUrls = [];
-
-  // Get the value of the "onclick" attribute from each menu item.
-  menuItems.forEach((menuItem, i) => {
-    crewUrls[i] = menuItem.getAttribute('onclick');
+  return menuItems.map((menuItem) => {
+    const url = menuItem.getAttribute('onclick');
+    const crewUrl = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${url.match(/"(.*?)"/g)[0].replace(/['"]+/g, '')}`;
+    return crewUrl;
   });
-
-  // Build a crew URL for each flight leg.
-  crewUrls.forEach((url, i) => {
-    crewUrls[i] = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${
-      url.match(/"(.*?)"/g)[0].replace(/['"]+/g, '')}`;
-  });
-
-  return crewUrls;
 }
+
 
 /**
  * Get a list of crew data for all flight segments in the pairing.
