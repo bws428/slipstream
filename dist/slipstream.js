@@ -327,27 +327,28 @@ function addCrews(flights, crews) {
  * @return {Array} The complete flights table.
  */
 function buildTable(flights, pairingNumber) {
-  const table = [];
-  flights.forEach((flight, i) => {
-    table[i] = [];
-    table[i][0] = pairingNumber;
-    table[i][1] = flight.date;
-    table[i][2] = flight.code + flight.fltNum;
-    table[i][3] = flight.orig;
-    table[i][4] = flight.dest;
-    table[i][5] = flight.depart;
-    table[i][6] = flight.arrive;
-    table[i][7] = flight.block;
-    table[i][8] = flight.tail;
-    flight.crew.forEach((name) => {
-      if (!name.dh && name.role === 'CA') {
-        table[i][9] = `"${name.id} ${name.last}, ${name.first}"`;
-      }
-      if (!name.dh && name.role === 'FO') {
-        table[i][10] = `"${name.id} ${name.last}, ${name.first}"`;
-      }
-    });
-  });
+  return flights.map((flight, i) => {
+    const row = [
+      pairingNumber,
+      flight.date,
+      flight.code + flight.fltNum,
+      flight.orig,
+      flight.dest,
+      flight.depart,
+      flight.arrive,
+      flight.block,
+      flight.tail,
+    ];
 
-  return table;
+    // Filter the crew to only include captain and first officer positions that are not DH
+    const crew = flight.crew.filter(
+      (name) => !name.dh && (name.role === 'CA' || name.role === 'FO')
+    );
+
+    // Add the crew names to the row
+    row.push(...crew.map((name) => `"${name.id} ${name.last}, ${name.first}"`));
+
+    return row;
+  });
 }
+
