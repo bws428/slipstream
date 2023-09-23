@@ -300,21 +300,25 @@ function getCrewNames(crewHtml) {
  * @return {Array} Complete flights object with crew names.
  */
 function addCrews(flights, crews) {
-  flights.forEach((flight) => {
-    crews.forEach((leg) => {
-      if (
+  return flights.map((flight) => {
+    // Find the corresponding crew for the flight
+    const matchingCrew = crews.find((leg) => {
+      return (
         leg.fltNum === flight.fltNum
         && leg.orig === flight.orig
         && leg.dest === flight.dest
-      ) {
-        // eslint-disable-next-line no-param-reassign
-        flight.crew = leg.crew;
-      }
+      );
     });
-  });
 
-  return flights;
+    // If a matching crew was found, add it to the flight object
+    if (matchingCrew) {
+      flight.crew = matchingCrew.crew;
+    }
+
+    return flight;
+  });
 }
+
 
 /**
  * Build the flights table from the flights object.
