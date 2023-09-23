@@ -340,7 +340,7 @@ function buildTable(flights, pairingNumber) {
       flight.tail,
     ];
 
-    // Filter the crew to only include captain and first officer positions that are not DH
+    // Filter the crew to only include CA and FO positions that are not DH
     const crew = flight.crew.filter(
       (name) => !name.dh && (name.role === 'CA' || name.role === 'FO')
     );
