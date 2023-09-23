@@ -128,12 +128,10 @@ function capitalize(names) {
  * @return {string} - A CSV-formatted string.
  */
 function buildCsv(csvHead, table) {
-  let csv = `${csvHead.join(',')}\n`;
-  table.forEach((row) => {
-    csv += `${row.join(',')}\n`;
-  });
-
-  return csv;
+  const csvLines = [csvHead.join(',')].concat(
+    table.map((row) => row.join(','))
+  );
+  return csvLines.join('\n');
 }
 
 /**
