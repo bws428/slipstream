@@ -327,7 +327,7 @@ function addCrews(flights, crews) {
  * @return {Array} The complete flights table.
  */
 function buildTable(flights, pairingNumber) {
-  return flights.map((flight, i) => {
+  return flights.map((flight) => {
     const row = [
       pairingNumber,
       flight.date,
