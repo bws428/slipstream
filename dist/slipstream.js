@@ -197,31 +197,27 @@ function getCrewUrls(menuItems) {
  * @return {Promise} A list of crew data.
  */
 async function getCrews(crewUrls, statusMessage) {
-  const crews = [];
-  const j = crewUrls.length;
+  // Update the status message
+  statusMessage.textContent = `Loading crews...`;
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [i, url] of crewUrls.entries()) {
-    // eslint-disable-next-line no-param-reassign
-    statusMessage.textContent = `Loading crews... ${i + 1} of ${j}`;
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const response = await fetch(url);
-      // eslint-disable-next-line no-await-in-loop
-      const responseText = await response.text();
-      // Need to convert the string to an HTML document
-      const crewHtml = new DOMParser().parseFromString(responseText, 'text/html');
-      crews[i] = getCrewNames(crewHtml);
-    } catch (error) {
-      console.error(error);
-      // eslint-disable-next-line no-param-reassign
-      statusMessage.textContent = 'Cannot load crew names. Try refreshing the page.';
-      return;
-    }
-  }
-  // eslint-disable-next-line consistent-return
+  // Fetch all of the crew data in parallel
+  const crewPromises = crewUrls.map(async (url) => {
+    const response = await fetch(url);
+    const responseText = await response.text();
+    const crewHtml = new DOMParser().parseFromString(responseText, 'text/html');
+    return getCrewNames(crewHtml);
+  });
+
+  // Wait for all of the crew data to be fetched
+  const crews = await Promise.all(crewPromises);
+
+  // Update the status message
+  statusMessage.textContent = `Crews loaded.`;
+
+  // Return the crews
   return crews;
 }
+
 
 /**
  * Get the crew names for a single flight leg.
