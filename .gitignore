@@ -8,7 +8,11 @@ lerna-debug.log*
 
 # Mac hidden files
 .DS_Store
+
+# Mozilla Add-ons compressed
 *.zip
+*.xpi
+*.crx
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
