@@ -69,8 +69,11 @@ ready(() => {
 
   // Must wait for async getCrews() to return before doing anything else.
   // This ensures that the flights object is populated with all of the
-  // crew data before the buildTable() and buildCsv() functions are called.
+  // crew names before the buildTable() and buildCsv() functions are called.
   (async () => {
+    // Update the status message.
+    statusMessage.textContent = 'Loading crew names...';
+
     // Get the crew names asynchronously & in parallel.
     const crews = await getCrews(urls, statusMessage);
 
@@ -87,7 +90,7 @@ ready(() => {
     const csv = buildCsv(header, table);
     console.log(csv);
 
-    // Ready to export.
+    // Update the status message and enable the Export button.
     statusMessage.textContent = 'Ready to export.';
     exportButton.disabled = false;
 
@@ -198,26 +201,25 @@ function getCrewUrls(menuItems) {
  * @return {Promise} A list of crew data.
  */
 async function getCrews(crewUrls, statusMessage) {
-  // Update the status message
-  statusMessage.textContent = `Loading crews...`;
+  // Create a promise that will resolve when all of the crew data has been fetched.
+  const crewsPromise = Promise.all(crewUrls.map(async (url) => {
 
-  // Fetch all of the crew data in parallel
-  const crewPromises = crewUrls.map(async (url) => {
+    // Fetch the crew data for the given URL.
     const response = await fetch(url);
     const responseText = await response.text();
     const crewHtml = new DOMParser().parseFromString(responseText, 'text/html');
+
+    // Return the crew names.
     return getCrewNames(crewHtml);
-  });
+  }));
 
-  // Wait for all of the crew data to be fetched
-  const crews = await Promise.all(crewPromises);
+  // Wait for all of the crew data to be fetched.
+  const crews = await crewsPromise;
 
-  // Update the status message
-  statusMessage.textContent = `Crews loaded.`;
-
-  // Return the crews
+  // Return the crews.
   return crews;
 }
+
 
 
 /**
@@ -233,29 +235,27 @@ function getCrewNames(crewHtml) {
     crew: [],
   };
 
+  // Get the <table> containing all the crew names for each leg.
   const crewTable = crewHtml.getElementById('dgFlightCrew');
 
-  // Okay, crewTable is an HTML <table> element.
-  // We need to iterate over all the <tr> elements in the table
-  // And for each <tr>, we need to find specific <td> elements
-  // and assign their values to a row in the crew[] array.
+  // Get each row in the table.
   const crewRows = crewTable.querySelectorAll('tr');
 
-  crewRows.forEach((tr, row) => {
-    crewNames.crew[row] = {
-      role: tr.querySelectorAll('td')[0].textContent.trim(),
-      dh: tr.querySelectorAll('td')[1].textContent.trim(),
-      id: tr.querySelectorAll('td')[3].textContent.trim(),
-      last: capitalize(tr.querySelectorAll('td')[4].textContent.trim()),
-      first: capitalize(tr.querySelectorAll('td')[5].textContent.trim()),
-    };
-  });
+  // Use `map()` to create a new array containing objects with the crew names.
+  crewNames.crew = Array.from(crewRows).map((tr) => ({
+    role: tr.querySelectorAll('td')[0].textContent.trim(),
+    dh: tr.querySelectorAll('td')[1].textContent.trim(),
+    id: tr.querySelectorAll('td')[3].textContent.trim(),
+    last: capitalize(tr.querySelectorAll('td')[4].textContent.trim()),
+    first: capitalize(tr.querySelectorAll('td')[5].textContent.trim()),
+  }));
 
-  // Why do we do this?
+  // Remove the first row of the `crew[]` array (the header row of the table).
   crewNames.crew.shift();
 
   return crewNames;
 }
+
 
 /**
  * Match crew names with the correct flight and join them together.
