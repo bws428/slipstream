@@ -3,7 +3,7 @@
 'use strict';
 
 // Make sure the DOM is fully loaded and ready...
-// ...with vanilla JS
+// ...using only vanilla JS
 ready(() => {
   // Create and insert an "Export" button to the right of the "Print" button.
   const printButton = document.getElementById('btnPRINT');
