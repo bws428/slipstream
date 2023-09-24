@@ -101,11 +101,15 @@ ready(() => {
   })();
 });
 
-//
-// ----------------------
-//   Helper Functions
-// ----------------------
-//
+
+
+/**
+ * ************************************************************
+ *                      Helper Functions
+ * ************************************************************
+ */
+
+
 
 /**
  * Replaces jQuery $(document).ready function
@@ -116,6 +120,7 @@ function ready(fn) {
   else document.addEventListener('DOMContentLoaded', fn);
 }
 
+
 /**
  * Capitalize only the first letters of a name.
  * @param {string} names - Name(s) to capitalize.
@@ -124,6 +129,7 @@ function ready(fn) {
 function capitalize(names) {
   return (`${names.toLowerCase()}`).replace(/^([a-z])|\s+([a-z])/g, ($1) => $1.toUpperCase());
 }
+
 
 /**
  * Build a properly-formatted CSV file from a 2D array.
@@ -138,6 +144,7 @@ function buildCsv(csvHead, table) {
   return csvLines.join('\n');
 }
 
+
 /**
  * Download a formatted string as a CSV file.
  * @param {string} csv - A CSV-formatted string.
@@ -151,6 +158,7 @@ function downloadCsv(csv, pairingNumber, pairingDate) {
   a.download = `${pairingNumber}-${pairingDate}.csv`;
   a.click();
 }
+
 
 /**
  * Get a list of flight segments from CrewTrac's "Pairing Inquire" page.
@@ -190,6 +198,7 @@ function getCrewUrls(menuItems) {
   return menuItems.map((menuItem) => {
     const url = menuItem.getAttribute('onclick');
     const crewUrl = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${url.match(/"(.*?)"/g)[0].replace(/['"]+/g, '')}`;
+    
     return crewUrl;
   });
 }
@@ -218,7 +227,6 @@ async function getCrews(crewUrls) {
 
   return crews;
 }
-
 
 
 /**
