@@ -16,7 +16,7 @@ ready(() => {
 
   // Create a new <div> for status messages.
   const statusMessage = document.createElement('div');
-  statusMessage.id = 'status_msg';
+  statusMessage.id = 'status_message';
 
   // Insert the status messages at the bottom of the "tbGRID" table.
   const tbGrid = document.getElementById('tbGRID');
@@ -52,7 +52,8 @@ ready(() => {
   // crew names before the buildTable() and buildCsv() functions are called.
   (async () => {
     // Update the status message.
-    statusMessage.textContent = 'Loading crew names...';
+    statusMessage.classList.add('loading');
+    statusMessage.textContent = 'Loading crew names';
 
     // Get the crew names asynchronously & in parallel.
     const crews = await getCrews(urls, statusMessage);
@@ -91,6 +92,7 @@ ready(() => {
     console.log(csv);
 
     // Update the status message and enable the Export button.
+    statusMessage.classList.remove('loading');
     statusMessage.textContent = 'Ready to export.';
     exportButton.disabled = false;
 
