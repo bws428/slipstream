@@ -196,7 +196,7 @@ function getFlights(gridText) {
 
 /**
  * Get a list of URLs to find the crew names for each flight segment.
- * @param {Object} menuItems - A list of jQuery "div.rClickMenuItem" objects.
+ * @param {Object} menuItems - A list of "div.rClickMenuItem" objects.
  * @return {Array} A list of crew URLs.
  */
 function getCrewUrls(menuItems) {
