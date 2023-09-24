@@ -2,26 +2,6 @@
 
 'use strict';
 
-// Define the header row for the CSV file.
-// NOTE: The number and order of the column names must not be changed,
-// but the column names themselves can be altered to match the expected
-// input fields for any given logbook software importer.
-//
-// TODO: Make this a user-configurable option.
-const header = [
-  'Remarks', // Pairing number goes here.
-  'Date',
-  'Flight Number',
-  'From',
-  'To',
-  'Departure Time',
-  'Arrival Time',
-  'Total',
-  'Aircraft ID',
-  'PIC Name',
-  'SIC Name',
-];
-
 // Make sure the DOM is fully loaded and ready...
 // ...with vanilla JS
 ready(() => {
@@ -85,6 +65,26 @@ ready(() => {
 
     // Log flights to console.
     console.log('flights: ', flights);
+
+    // Define the header row for the CSV file.
+    // NOTE: The number and order of the column names must not be changed,
+    // but the column names themselves can be altered to match the expected
+    // input fields for any given logbook software importer.
+    //
+    // TODO: Make this a user-configurable option.
+    const header = [
+      'Remarks', // Pairing number goes here.
+      'Date',
+      'Flight Number',
+      'From',
+      'To',
+      'Departure Time',
+      'Arrival Time',
+      'Total',
+      'Aircraft ID',
+      'PIC Name',
+      'SIC Name',
+    ];
 
     // Build the CSV file string and log to console.
     const csv = buildCsv(header, table);
