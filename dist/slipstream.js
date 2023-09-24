@@ -174,7 +174,7 @@ function getFlights(gridText) {
       depart: row[10].trim(),
       arrive: row[11].trim(),
       block: row[12].trim(),
-      tail: `N${tailNumber}NK`,
+      tail: `N${tailNumber}NK`, // Hard-coded for *only* NK???
       crew: [],
     };
   }).filter((flight) => flight.dh === '');
@@ -216,7 +216,6 @@ async function getCrews(crewUrls) {
   // Wait for all of the crew data to be fetched.
   const crews = await crewsPromise;
 
-  // Return the crews.
   return crews;
 }
 
