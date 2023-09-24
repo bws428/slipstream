@@ -200,7 +200,7 @@ function getCrewUrls(menuItems) {
  * @param {Array} crewUrls - An array of URLs.
  * @return {Promise} A list of crew data.
  */
-async function getCrews(crewUrls, statusMessage) {
+async function getCrews(crewUrls) {
   // Create a promise that will resolve when all of the crew data has been fetched.
   const crewsPromise = Promise.all(crewUrls.map(async (url) => {
 
