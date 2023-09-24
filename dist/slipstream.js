@@ -67,10 +67,11 @@ ready(() => {
     element.textContent.includes('Flight Leg Crew')));
   const urls = getCrewUrls(menuItems);
 
-  // Must wait for crews to return before doing anything else.
-  // Is there a more elegant way to do this?
+  // Must wait for async getCrews() to return before doing anything else.
+  // This ensures that the flights object is populated with all of the
+  // crew data before the buildTable() and buildCsv() functions are called.
   (async () => {
-    // Get the crew names asynchronously.
+    // Get the crew names asynchronously & in parallel.
     const crews = await getCrews(urls, statusMessage);
 
     // Add crews to flights.
