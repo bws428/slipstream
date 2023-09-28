@@ -179,7 +179,8 @@ function getFlights(gridText) {
     // Grab the flight segment details and store as an object
     return {
       date: row[4].trim(),
-      code: row[5].trim(),
+      // If the OA field is empty, the airline code is NKS
+      code: row[5].trim() !== "" ? row[5].trim() : "NKS", 
       fltNum: row[6].trim().replace(/\b0+/g, ''),
       dh: row[7].trim(),
       orig: row[8].trim(),
@@ -191,6 +192,10 @@ function getFlights(gridText) {
       crew: [],
     };
   }).filter((flight) => flight.dh === '');
+  
+  // flights.forEach(flight => {
+  //   if (!flight.code) flight.code = "NKS";
+  // });
 }
 
 
