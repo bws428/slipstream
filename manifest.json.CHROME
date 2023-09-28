@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Slipstream",
-  "version": "2.0.3",
+  "version": "2.0.4",
   
   "description": "Streamline your aviation record keeping.",
   "homepage_url": "https://github.com/bws428/slipstream",
