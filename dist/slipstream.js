@@ -78,14 +78,14 @@ ready(() => {
     //
     // TODO: Make this a user-configurable option.
     const header = [
-      'Remarks', // Pairing number goes here.
+      'Remarks', // Pairing number will go here
       'Date',
       'Flight Number',
-      'From',
-      'To',
+      'From', // Origin airport code
+      'To', // Destination airport code
       'Departure Time',
       'Arrival Time',
-      'Total',
+      'Total', // Total flight time
       'Aircraft ID',
       'PIC Name',
       'SIC Name',
