@@ -5,12 +5,12 @@
 // Make sure the DOM is fully loaded and ready...
 // ...using only vanilla JS
 ready(() => {
-  // Create a new Export button element.
+  // Create a new Export button element
   const exportButton = document.createElement('button');
   exportButton.type = 'button';
   exportButton.id = 'export_button';
   exportButton.textContent = 'Export';
-  exportButton.disabled = true; // for now, while we load crews...
+  exportButton.disabled = true;
 
   // Insert the Export button to the right of the Print button.
   const printButton = document.getElementById('btnPRINT');
@@ -55,11 +55,10 @@ ready(() => {
   // This ensures that the flights object is populated with all of the
   // crew names before the buildTable() and buildCsv() functions are called.
   (async () => {
-    // Update the status message.
-    statusMessage.classList.add('loading');
-    statusMessage.textContent = 'Loading crew names';
+    // Update status message.
+    statusMessage.textContent = `Loading crews... 1 of ${urls.length}`;
 
-    // Get the crew names asynchronously & in parallel.
+    // Get the crew names asynchronously.
     const crews = await getCrews(urls, statusMessage);
 
     // Add the crew names to the flights object.
@@ -96,7 +95,6 @@ ready(() => {
     console.log(csv);
 
     // Update the status message and enable the Export button.
-    statusMessage.classList.remove('loading');
     statusMessage.textContent = 'Ready to export.';
     exportButton.disabled = false;
 
@@ -217,9 +215,14 @@ function getCrewUrls(menuItems) {
 /**
  * Get a list of crew data for all flight segments in the pairing.
  * @param {Array} crewUrls - An array of URLs.
+ * @param {HTMLDivElement} statusMessage - Contains any status messages.
  * @return {Promise} A list of crew data.
  */
-async function getCrews(crewUrls) {
+async function getCrews(crewUrls, statusMessage) {
+  // Create a counter to track the number of crews that have been fetched.
+  let currentCount = 2; // a hack so that the counter reaches the totalCount
+  const totalCount = crewUrls.length;
+
   // Create a promise that will resolve when all of the crew data has been fetched.
   const crewsPromise = Promise.all(crewUrls.map(async (url) => {
 
@@ -227,6 +230,10 @@ async function getCrews(crewUrls) {
     const response = await fetch(url);
     const responseText = await response.text();
     const crewHtml = new DOMParser().parseFromString(responseText, 'text/html');
+
+    // Update the status message & increment the counter.
+    statusMessage.textContent = `Loading crews... ${currentCount} of ${totalCount}`;
+    currentCount++;
 
     // Return the crew names.
     return getCrewNames(crewHtml);
