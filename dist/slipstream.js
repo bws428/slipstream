@@ -5,13 +5,15 @@
 // Make sure the DOM is fully loaded and ready...
 // ...using only vanilla JS
 ready(() => {
-  // Create and insert an "Export" button to the right of the "Print" button.
-  const printButton = document.getElementById('btnPRINT');
+  // Create a new "Export" button element.
   const exportButton = document.createElement('button');
-  exportButton.id = 'export_btn';
   exportButton.type = 'button';
-  exportButton.disabled = true;
+  exportButton.id = 'export_button';
   exportButton.textContent = 'Export';
+  exportButton.disabled = true; // for now, while we load crews...
+
+  // Insert the "Export" button to the right of the "Print" button.
+  const printButton = document.getElementById('btnPRINT');
   printButton.insertAdjacentElement('afterend', exportButton);
 
   // Create a new <div> for status messages.
