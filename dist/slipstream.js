@@ -41,6 +41,8 @@ ready(() => {
   // https://youmightnotneedjquery.com/#contains_selector
   const gridText = [...document.querySelectorAll('script')].filter((element) => (
     element.textContent.includes('gGridText')))[0].text;
+
+  // Create the flights object from the gGridText string.
   let flights = getFlights(gridText);
 
   // Get the crew URLs for all valid flight segments.
@@ -60,7 +62,7 @@ ready(() => {
     // Get the crew names asynchronously & in parallel.
     const crews = await getCrews(urls, statusMessage);
 
-    // Add crews to flights.
+    // Add the crew names to the flights object.
     flights = addCrews(flights, crews);
 
     // Turn flights object into a 2D array.
