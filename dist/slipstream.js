@@ -196,10 +196,6 @@ function getFlights(gridText) {
       crew: [],
     };
   }).filter((flight) => flight.dh === '');
-  
-  // flights.forEach(flight => {
-  //   if (!flight.code) flight.code = "NKS";
-  // });
 }
 
 
