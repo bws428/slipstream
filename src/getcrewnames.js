@@ -31,5 +31,8 @@ export default function getCrewNames(crewHtml) {
   // Remove the first row of the `crew[]` array (the header row of the table).
   crewNames.crew.shift();
 
+  // for debugging...
+  console.log(crewNames);
+
   return crewNames;
 }
