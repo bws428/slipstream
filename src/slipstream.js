@@ -1,11 +1,11 @@
 "use strict";
 
+import { ready, buildCsv, downloadCsv } from "./helpers";
 import getFlights from "./getflights";
 import getCrewUrls from "./getcrewurls";
 import getCrews from "./getcrews";
 import addCrews from "./addcrews";
 import buildTable from "./buildtable";
-import { ready, buildCsv, downloadCsv } from "./helpers";
 
 // Make sure the DOM is fully loaded and ready...
 // ...using only vanilla JS
