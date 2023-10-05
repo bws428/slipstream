@@ -1,34 +1,34 @@
 /* slipstream.js | MIT License | https://github.com/bws428/slipstream */
 
-'use strict';
+"use strict";
 
 // Make sure the DOM is fully loaded and ready...
 // ...using only vanilla JS
 ready(() => {
   // Create a new Export button element
-  const exportButton = document.createElement('button');
-  exportButton.type = 'button';
-  exportButton.id = 'export_button';
-  exportButton.textContent = 'Export';
+  const exportButton = document.createElement("button");
+  exportButton.type = "button";
+  exportButton.id = "export_button";
+  exportButton.textContent = "Export";
   exportButton.disabled = true;
 
   // Insert the Export button to the right of the Print button.
-  const printButton = document.getElementById('btnPRINT');
-  printButton.insertAdjacentElement('afterend', exportButton);
+  const printButton = document.getElementById("btnPRINT");
+  printButton.insertAdjacentElement("afterend", exportButton);
 
   // Create a new <div> for status messages.
-  const statusMessage = document.createElement('div');
-  statusMessage.id = 'status_message';
+  const statusMessage = document.createElement("div");
+  statusMessage.id = "status_message";
 
   // Insert the status messages at the bottom of the "tbGRID" table.
-  const tbGrid = document.getElementById('tbGRID');
-  tbGrid.insertAdjacentElement('afterend', statusMessage);
+  const tbGrid = document.getElementById("tbGRID");
+  tbGrid.insertAdjacentElement("afterend", statusMessage);
 
   // Get the pairing number.
-  const pairingNumber = document.getElementById('PrgNo').value.toString();
+  const pairingNumber = document.getElementById("PrgNo").value.toString();
 
   // Get the pairing date.
-  const pairingDate = document.getElementById('PrgDate').value.replaceAll('/', '.').toString();
+  const pairingDate = document.getElementById("PrgDate").value.replaceAll("/", ".").toString();
 
   // Log the pairing number and date to the console.
   console.log(`Pairing ${pairingNumber} on ${pairingDate}`);
@@ -39,16 +39,16 @@ ready(() => {
   // and select the one that contains the "gGridText" variable. Then we'll
   // process the raw "gGridText" string with our custom getFlights() function.
   // https://youmightnotneedjquery.com/#contains_selector
-  const gridText = [...document.querySelectorAll('script')].filter((element) => (
-    element.textContent.includes('gGridText')))[0].text;
+  const gridText = [...document.querySelectorAll("script")].filter((element) => (
+    element.textContent.includes("gGridText")))[0].text;
 
   // Create the flights object from the gGridText string.
   let flights = getFlights(gridText);
 
   // Get the crew URLs for all valid flight segments.
-  const menusDiv = document.getElementById('MenusDIV');
-  const menuItems = [...menusDiv.querySelectorAll('.rClickMenuItem')].filter((element) => (
-    element.textContent.includes('Flight Leg Crew')));
+  const menusDiv = document.getElementById("MenusDIV");
+  const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((element) => (
+    element.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
   // Must wait for async getCrews() to return before doing anything else.
@@ -68,7 +68,7 @@ ready(() => {
     const table = buildTable(flights, pairingNumber);
 
     // Log flights to console.
-    console.log('flights: ', flights);
+    console.log("flights: ", flights);
 
     // Define the header row for the CSV file.
     // NOTE: The number and order of the column names must not be changed,
@@ -77,17 +77,17 @@ ready(() => {
     //
     // TODO: Make this a user-configurable option.
     const header = [
-      'Remarks', // Pairing number will go here
-      'Date',
-      'Flight Number',
-      'From', // Origin airport code
-      'To', // Destination airport code
-      'Departure Time',
-      'Arrival Time',
-      'Total', // Total flight time
-      'Aircraft ID',
-      'PIC Name',
-      'SIC Name',
+      "Remarks", // Pairing number will go here
+      "Date",
+      "Flight Number",
+      "From", // Origin airport code
+      "To", // Destination airport code
+      "Departure Time",
+      "Arrival Time",
+      "Total", // Total flight time
+      "Aircraft ID",
+      "PIC Name",
+      "SIC Name",
     ];
 
     // Build the CSV file string and log to console.
@@ -95,11 +95,11 @@ ready(() => {
     console.log(csv);
 
     // Update the status message and enable the Export button.
-    statusMessage.textContent = 'Ready to export.';
+    statusMessage.textContent = "Ready to export.";
     exportButton.disabled = false;
 
     // Download flights CSV when "Export" button is clicked.
-    exportButton.addEventListener('click', () => {
+    exportButton.addEventListener("click", () => {
       downloadCsv(csv, pairingNumber, pairingDate);
     });
   })();
@@ -120,8 +120,8 @@ ready(() => {
  * ...with vanilla JS
  */
 function ready(fn) {
-  if (document.readyState !== 'loading') fn();
-  else document.addEventListener('DOMContentLoaded', fn);
+  if (document.readyState !== "loading") fn();
+  else document.addEventListener("DOMContentLoaded", fn);
 }
 
 
@@ -142,10 +142,10 @@ function capitalize(names) {
  * @return {string} - A CSV-formatted string.
  */
 function buildCsv(csvHead, table) {
-  const csvLines = [csvHead.join(',')].concat(
-    table.map((row) => row.join(','))
+  const csvLines = [csvHead.join(",")].concat(
+    table.map((row) => row.join(","))
   );
-  return csvLines.join('\n');
+  return csvLines.join("\n");
 }
 
 
@@ -156,9 +156,9 @@ function buildCsv(csvHead, table) {
  * @param {string} pairingDate - The pairing start date.
  */
 function downloadCsv(csv, pairingNumber, pairingDate) {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
-  a.target = '_blank';
+  a.target = "_blank";
   a.download = `${pairingNumber}-${pairingDate}.csv`;
   a.click();
 }
@@ -171,7 +171,7 @@ function downloadCsv(csv, pairingNumber, pairingDate) {
  */
 function getFlights(gridText) {
   // Get value of "gGridText" var from input string and return an array of flight segments.
-  const flights = gridText.split("'")[1].split('-').filter((entry) => entry.substring(0, 3).search('L:') !== -1).map((row) => row.split('::'));
+  const flights = gridText.split("'")[1].split("-").filter((entry) => entry.substring(0, 3).search("L:") !== -1).map((row) => row.split("::"));
 
   // Build an array of flight segment objects from the flights table.
   return flights.map((row) => {
@@ -183,7 +183,7 @@ function getFlights(gridText) {
       date: row[4].trim(),
       // If the OA field is empty, the airline code is NKS
       code: row[5].trim() !== "" ? row[5].trim() : "NKS", 
-      fltNum: row[6].trim().replace(/\b0+/g, ''),
+      fltNum: row[6].trim().replace(/\b0+/g, ""),
       dh: row[7].trim(),
       orig: row[8].trim(),
       dest: row[9].trim(),
@@ -193,7 +193,7 @@ function getFlights(gridText) {
       tail: `N${tailNumber}NK`, // Hard-coded for *only* NK???
       crew: [],
     };
-  }).filter((flight) => flight.dh === '');
+  }).filter((flight) => flight.dh === "");
 }
 
 
@@ -204,8 +204,8 @@ function getFlights(gridText) {
  */
 function getCrewUrls(menuItems) {
   return menuItems.map((menuItem) => {
-    const url = menuItem.getAttribute('onclick');
-    const crewUrl = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${url.match(/"(.*?)"/g)[0].replace(/['"]+/g, '')}`;
+    const url = menuItem.getAttribute("onclick");
+    const crewUrl = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${url.match(/"(.*?)"/g)[0].replace(/['"]+/g, "")}`;
     
     return crewUrl;
   });
@@ -229,7 +229,7 @@ async function getCrews(crewUrls, statusMessage) {
     // Fetch the crew data for the given URL.
     const response = await fetch(url);
     const responseText = await response.text();
-    const crewHtml = new DOMParser().parseFromString(responseText, 'text/html');
+    const crewHtml = new DOMParser().parseFromString(responseText, "text/html");
 
     // Update the status message & increment the counter.
     statusMessage.textContent = `Loading crews... ${currentCount} of ${totalCount}`;
@@ -253,25 +253,25 @@ async function getCrews(crewUrls, statusMessage) {
  */
 function getCrewNames(crewHtml) {
   const crewNames = {
-    fltNum: crewHtml.getElementById('lblFlightNo').textContent.replace(/\b0+/g, ''),
-    orig: crewHtml.getElementById('lblDeptCity').textContent,
-    dest: crewHtml.getElementById('lblArrvCity').textContent,
+    fltNum: crewHtml.getElementById("lblFlightNo").textContent.replace(/\b0+/g, ""),
+    orig: crewHtml.getElementById("lblDeptCity").textContent,
+    dest: crewHtml.getElementById("lblArrvCity").textContent,
     crew: [],
   };
 
   // Get the <table> containing all the crew names for each leg.
-  const crewTable = crewHtml.getElementById('dgFlightCrew');
+  const crewTable = crewHtml.getElementById("dgFlightCrew");
 
   // Get each row in the table.
-  const crewRows = crewTable.querySelectorAll('tr');
+  const crewRows = crewTable.querySelectorAll("tr");
 
   // Use `map()` to create a new array containing objects with the crew names.
   crewNames.crew = Array.from(crewRows).map((tr) => ({
-    role: tr.querySelectorAll('td')[0].textContent.trim(),
-    dh: tr.querySelectorAll('td')[1].textContent.trim(),
-    id: tr.querySelectorAll('td')[3].textContent.trim(),
-    last: capitalize(tr.querySelectorAll('td')[4].textContent.trim()),
-    first: capitalize(tr.querySelectorAll('td')[5].textContent.trim()),
+    role: tr.querySelectorAll("td")[0].textContent.trim(),
+    dh: tr.querySelectorAll("td")[1].textContent.trim(),
+    id: tr.querySelectorAll("td")[3].textContent.trim(),
+    last: capitalize(tr.querySelectorAll("td")[4].textContent.trim()),
+    first: capitalize(tr.querySelectorAll("td")[5].textContent.trim()),
   }));
 
   // Remove the first row of the `crew[]` array (the header row of the table).
@@ -330,7 +330,7 @@ function buildTable(flights, pairingNumber) {
 
     // Filter the crew to only include CA and FO positions that are not DH
     const crew = flight.crew.filter(
-      (name) => !name.dh && (name.role === 'CA' || name.role === 'FO')
+      (name) => !name.dh && (name.role === "CA" || name.role === "FO")
     );
 
     // Add the crew names to the row
