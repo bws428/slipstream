@@ -2,7 +2,10 @@
   "name": "slipstream",
   "description": "Streamline your aviation record keeping.",
   "main": "slipstream.js",
-  "scripts": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bws428/slipstream.git"
@@ -17,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/bws428/slipstream/issues"
   },
-  "homepage": "https://github.com/bws428/slipstream"
+  "homepage": "https://github.com/bws428/slipstream",
+  "devDependencies": {
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
 }
