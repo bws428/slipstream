@@ -2,6 +2,7 @@
 
 import { ready, buildCsv, downloadCsv } from "./helpers";
 import getFlights from "./getflights";
+import getQuickCrews from "./getquickcrews";
 import getCrewUrls from "./getcrewurls";
 import getCrews from "./getcrews";
 import addCrews from "./addcrews";
@@ -48,7 +49,7 @@ ready(() => {
     element.textContent.includes("gGridText")))[0].text;
 
   // Create the flights object from the gGridText string.
-  let flights = getFlights(gridText);
+  const flights = getFlights(gridText);
 
   // Get the crew URLs for all valid flight segments.
   const menusDiv = document.getElementById("MenusDIV");
@@ -56,10 +57,16 @@ ready(() => {
     element.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
-  // First try to get the crew names straight from the current page
-  // If both CA and FO names are there, then we can SKIP the async call
-  const crewData = document.getElementById("hdnCREWDATA").value.toString();
-  console.log(crewData);
+  // TODO: Try to get the crew names straight from the current page.
+  // If both CA and FO names are there, then we can SKIP the async call!
+  const hdnCrewData = document.getElementById("hdnCREWDATA").value.toString();
+
+  // If there is data for BOTH pilots, there will be a ":-:" separator.
+  // If only ONE pilot is listed, there will NOT be a ":-:" separator.
+  if (hdnCrewData.search(":-:") !== -1) {
+    const quickCrews = getQuickCrews(hdnCrewData);
+    console.log(quickCrews);
+  }
 
   // Must wait for async getCrews() to return before doing anything else.
   // This ensures that the flights object is populated with all of the
@@ -72,13 +79,13 @@ ready(() => {
     const crews = await getCrews(urls, statusMessage);
 
     // Add the crew names to the flights object.
-    flights = addCrews(flights, crews);
+    const pairing = addCrews(flights, crews);
 
     // Turn flights object into a 2D array.
-    const table = buildTable(flights, pairingNumber);
+    const table = buildTable(pairing, pairingNumber);
 
     // Log flights to console.
-    console.log("flights: ", flights);
+    console.log("flights: ", pairing);
 
     // Define the header row for the CSV file.
     // NOTE: The number and order of the column names must not be changed,
