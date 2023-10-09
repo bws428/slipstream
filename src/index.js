@@ -57,27 +57,49 @@ ready(() => {
     element.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
-  // TODO: Try to get the crew names straight from the current page.
+  
+  // This "Positions:" value should also tell us if there are two pilots, rather than just one.
+  // If we could grab the CA=1 and FO=1 values, and if both were TRUE, that would be the
+  // trigger to skip the getCrews async call....
+
+  // <TD WIDTH='460' ALIGN='LEFT'>
+  //   <FONT CLASS='pmtabletext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Positions:&nbsp;</FONT>
+  //   <FONT CLASS='pmtabletext'>CA&nbsp;</FONT>
+  //   <INPUT TYPE='TEXT' VALUE='1' CLASS='pmtabletext' SIZE='2'>
+  //   <FONT CLASS='pmtabletext'>FO&nbsp;</FONT>
+  //   <INPUT TYPE='TEXT' VALUE='1' CLASS='pmtabletext' SIZE='2'>
+  //   <FONT CLASS='pmtabletext'>FA&nbsp;</FONT>
+  //   <INPUT TYPE='TEXT' VALUE='0' CLASS='pmtabletext' SIZE='2'>
+  //   <FONT CLASS='pmtabletext'>SP&nbsp;</FONT>
+  //   <INPUT TYPE='TEXT' VALUE='0' CLASS='pmtabletext' SIZE='2'>
+  // </TD>
+
+    // TODO: Try to get the crew names straight from the current page.
   // If both CA and FO names are there, then we can SKIP the async call!
   const hdnCrewData = document.getElementById("hdnCREWDATA").value.toString();
 
-  // If there is data for BOTH pilots, there will be a ":-:" separator.
-  // If only ONE pilot is listed, there will NOT be a ":-:" separator.
-  if (hdnCrewData.search(":-:") !== -1) {
-    const quickCrews = getQuickCrews(hdnCrewData);
-    console.log(quickCrews);
-  }
 
   // Must wait for async getCrews() to return before doing anything else.
   // This ensures that the flights object is populated with all of the
   // crew names before the buildTable() and buildCsv() functions are called.
   (async () => {
-    // Update status message.
-    statusMessage.textContent = `Loading crews... 1 of ${urls.length}`;
 
-    // Get the crew names asynchronously.
-    const crews = await getCrews(urls, statusMessage);
+    // Store the crew names in an object.
+    let crews = {};
 
+    // If there is data for BOTH pilots, there will be a ":-:" separator.
+    // If only ONE pilot is listed, there will NOT be a ":-:" separator.
+    if (hdnCrewData.search(":-:") !== -1) {
+      crews = getQuickCrews(hdnCrewData);
+    }
+    else {
+      // Update status message.
+      statusMessage.textContent = `Loading crews... 1 of ${urls.length}`;
+
+      // Get the crew names asynchronously.
+      crews = await getCrews(urls, statusMessage);
+    }
+    
     // Add the crew names to the flights object.
     const pairing = addCrews(flights, crews);
 

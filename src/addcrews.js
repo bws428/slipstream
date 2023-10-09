@@ -9,9 +9,9 @@ export default function addCrews(flights, crews) {
     // Find the corresponding crew for the flight
     const matchingCrew = crews.find((leg) => {
       return (
-        leg.fltNum === flight.fltNum
-        && leg.orig === flight.orig
-        && leg.dest === flight.dest
+        leg.fltNum === flight.fltNum || leg.fltNum === ""
+        && leg.orig === flight.orig || leg.orig === ""
+        && leg.dest === flight.dest || leg.dest === ""
       );
     });
 
