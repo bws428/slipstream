@@ -57,7 +57,6 @@ ready(() => {
     element.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
-
   // This "Positions:" value should also tell us if there are two pilots, rather than just one.
   // If we could grab the CA=1 and FO=1 values, and if both were TRUE, that would be the
   // trigger to skip the getCrews async call....
@@ -74,10 +73,8 @@ ready(() => {
   //   <INPUT TYPE='TEXT' VALUE='0' CLASS='pmtabletext' SIZE='2'>
   // </TD>
 
-    // TODO: Try to get the crew names straight from the current page.
   // If both CA and FO names are there, then we can SKIP the async call!
   const hdnCrewData = document.getElementById("hdnCREWDATA").value.toString();
-
 
   // Must wait for async getCrews() to return before doing anything else.
   // This ensures that the flights object is populated with all of the
