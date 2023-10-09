@@ -37,7 +37,7 @@ To install Slipstream locally for development, first clone the repository using 
 gh repo clone bws428/slipstream
 ```
 
-Next, install all NodeJS dependencies using the [Node package manager](https://www.npmjs.com/):
+Next, install all NodeJS dependencies using the [`npm`](https://www.npmjs.com/):
 
 ```shell
 npm install
