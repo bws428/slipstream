@@ -57,9 +57,10 @@ ready(() => {
     element.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
-  // This "Positions:" value should also tell us if there are two pilots, rather than just one.
+  // The "Positions:" value should tell us if there are two pilots, rather than just one.
   // If we could grab the CA=1 and FO=1 values, and if both were TRUE, that would be the
   // trigger to skip the getCrews async call....
+  // OR... we can just use the ":-:" separator, as detailed below.  Less bulletproof maybe.
 
   // <TD WIDTH='460' ALIGN='LEFT'>
   //   <FONT CLASS='pmtabletext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Positions:&nbsp;</FONT>
@@ -87,13 +88,14 @@ ready(() => {
     // If there is data for BOTH pilots, there will be a ":-:" separator.
     // If only ONE pilot is listed, there will NOT be a ":-:" separator.
     if (hdnCrewData.search(":-:") !== -1) {
+      // Get the crew names (quickly!) from the current page.
       crews = getQuickCrews(hdnCrewData);
     }
     else {
       // Update status message.
       statusMessage.textContent = `Loading crews... 1 of ${urls.length}`;
 
-      // Get the crew names asynchronously.
+      // Fetch the crew names asynchronously (from the Flight Leg Crew pages).
       crews = await getCrews(urls, statusMessage);
     }
     
