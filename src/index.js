@@ -59,6 +59,9 @@ ready(() => {
     el.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
+  console.log(menuItems);
+  console.log(getCrewUrls(menuItems));
+
   // The "Positions:" value should tell us if there are two pilots, rather than just one.
   // If we could grab the CA=1 and FO=1 values, and if both were TRUE, that would be the
   // trigger to skip the getCrewsAsync async call....
