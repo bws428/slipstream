@@ -106,9 +106,6 @@ ready(() => {
     // Turn flights object into a 2D array.
     const table = buildTable(pairing, pairingNumber);
 
-    // Log flights to console.
-    // console.log("flights: ", pairing);
-
     // Define the header row for the CSV file.
     // NOTE: The number and order of the column names must not be changed,
     // but the column names themselves can be altered to match the expected
