@@ -4,10 +4,24 @@
  * @return {Array} A list of crew URLs.
  */
 export default function getCrewUrls(menuItems) {
-  return menuItems.map((menuItem) => {
+  // Set the CrewTrac URL prefix:
+  const urlPrefix = 
+    `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/`;
+
+  // Extract the URL from the `onclick` attribute of each menu item.
+  const crewUrls = menuItems.map((menuItem) => {
+
+    // Get the text of the "onclick" attribute
     const url = menuItem.getAttribute("onclick");
-    const crewUrl = `https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/${url.match(/"(.*?)"/g)[0].replace(/['"]+/g, "")}`;
-    
-    return crewUrl;
+
+    // Match the first double-quoted string from the `url` string,
+    // then replace all single and double quotes in the matched string
+    // with an empty string.
+    return url.match(/"(.*?)"/g)[0].replace(/['"]+/g, "");
+  });
+
+  // Add the prefix to each crew URL.
+  return crewUrls.map((crewUrl) => {
+    return `${urlPrefix}${crewUrl}`;
   });
 }

@@ -4,12 +4,9 @@
 
 import getCrewUrls from "../src/get-crew-urls";
 
-const itemOne = document.createElement("div");
-itemOne.class = "rClickMenuItem";
-itemOne.onclick = "parent.window.onDetailClick(&quot;ctw4130report.aspx?FltNo=0930&amp;DeptDate=20230920&amp;DisplayDeptDate=09/20/23&amp;DeptCity=MCO&amp;ArrvCity=RIC&amp;Modal=ctwpm&quot;,2);";
-
-const menuItems = [ itemOne ];
-
+const div1 = document.createElement("div");
+const url1 =`parent.window.onDetailClick("ctw4130report.aspx?FltNo=0930&DeptDate=20230920&DisplayDeptDate=09/20/23&DeptCity=MCO&ArrvCity=RIC&Modal=ctwpm",2);`;
+const menuItems = [ div1 ];
 
 const crewUrls =
   [
