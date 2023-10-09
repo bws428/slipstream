@@ -33,8 +33,18 @@ To install the Slipstream extension, use the links below for your preferred web 
 
 To install Slipstream locally for development, first clone the repository using the [GitHub CLI](https://cli.github.com/):
 
-`gh repo clone bws428/slipstream`
+```shell
+gh repo clone bws428/slipstream
+```
 
 Next, install all NodeJS dependencies using the [Node package manager](https://www.npmjs.com/):
 
-`npm install`
+```shell
+npm install
+```
+
+Finally, build the `dist/slipstream.js` file for testing in your browser:
+
+```shell
+npm run build
+```
