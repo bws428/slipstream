@@ -45,16 +45,18 @@ ready(() => {
   // and select the one that contains the "gGridText" variable. Then we'll
   // process the raw "gGridText" string with our custom getFlights() function.
   // https://youmightnotneedjquery.com/#contains_selector
-  const gridText = [...document.querySelectorAll("script")].filter((element) => (
-    element.textContent.includes("gGridText")))[0].text;
+  const gridText = [...document.querySelectorAll("script")].filter((el) => (
+    el.textContent.includes("gGridText")))[0].text;
 
   // Create the flights object from the gGridText string.
   const flights = getFlights(gridText);
 
+  console.log(getFlights(gridText));
+
   // Get the crew URLs for all valid flight segments.
   const menusDiv = document.getElementById("MenusDIV");
-  const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((element) => (
-    element.textContent.includes("Flight Leg Crew")));
+  const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((el) => (
+    el.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
   // The "Positions:" value should tell us if there are two pilots, rather than just one.
