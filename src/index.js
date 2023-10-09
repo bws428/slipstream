@@ -57,7 +57,7 @@ ready(() => {
     element.textContent.includes("Flight Leg Crew")));
   const urls = getCrewUrls(menuItems);
 
-  
+
   // This "Positions:" value should also tell us if there are two pilots, rather than just one.
   // If we could grab the CA=1 and FO=1 values, and if both were TRUE, that would be the
   // trigger to skip the getCrews async call....
@@ -107,7 +107,7 @@ ready(() => {
     const table = buildTable(pairing, pairingNumber);
 
     // Log flights to console.
-    console.log("flights: ", pairing);
+    // console.log("flights: ", pairing);
 
     // Define the header row for the CSV file.
     // NOTE: The number and order of the column names must not be changed,
