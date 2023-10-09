@@ -3,7 +3,7 @@ import { capitalize } from "./helpers";
 /**
  * Get the crew names (quickly) for all flight legs.
  * @param {string} hdnCrewData - The "hidden crew data" string.
- * @return {Object} The crew names object.
+ * @return {Array} The crew names array.
  */
 export default function getQuickCrews(hdnCrewData) {
 

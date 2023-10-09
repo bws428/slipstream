@@ -1,18 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Slipstream",
-  "version": "2.0.5",
-  
+  "version": "2.0.6",
   "description": "Streamline your aviation record keeping.",
   "homepage_url": "https://github.com/bws428/slipstream",
-  "icons": { "128": "icon.png" },
-
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "@slipstream"
-    }
-  },
- 
+  "icons": {
+    "128": "icons/icon.png"
+  }, 
   "content_scripts": [
     {
       "matches": [
@@ -25,5 +19,10 @@
         "dist/slipstream.js"
       ]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "@slipstream"
+    }
+  }
 }

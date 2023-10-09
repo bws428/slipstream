@@ -1,8 +1,8 @@
 /**
  * Match crew names with the correct flight and join them together.
- * @param {Array} flights - The flights object.
- * @param {Array} crews - The crews object.
- * @return {Array} Complete flights object with crew names.
+ * @param {Array} flights - The flights array.
+ * @param {Array} crews - The crews array.
+ * @return {Array} Complete flights array with crew names attached.
  */
 export default function addCrews(flights, crews) {
   return flights.map((flight) => {
