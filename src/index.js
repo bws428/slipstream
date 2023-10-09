@@ -51,8 +51,6 @@ ready(() => {
   // Create the flights object from the gGridText string.
   const flights = getFlights(gridText);
 
-  console.log(getFlights(gridText));
-
   // Get the crew URLs for all valid flight segments.
   const menusDiv = document.getElementById("MenusDIV");
   const menuItems = [...menusDiv.querySelectorAll(".rClickMenuItem")].filter((el) => (
