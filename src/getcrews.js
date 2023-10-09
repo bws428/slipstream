@@ -14,17 +14,24 @@ export default async function getCrews(crewUrls, statusMessage) {
   // Create a promise that will resolve when all of the crew data has been fetched.
   const crewsPromise = Promise.all(crewUrls.map(async (url) => {
 
-    // Fetch the crew data for the given URL.
-    const response = await fetch(url);
-    const responseText = await response.text();
-    const crewHtml = new DOMParser().parseFromString(responseText, "text/html");
+    try {
+      // Fetch the crew data for the given URL.
+      const response = await fetch(url);
+      const responseText = await response.text();
+      const crewHtml = new DOMParser().parseFromString(responseText, "text/html");
 
-    // Update the status message & increment the counter.
-    statusMessage.textContent = `Loading crews... ${currentCount} of ${totalCount}`;
-    currentCount++;
+      // Update the status message & increment the counter.
+      statusMessage.textContent = `Loading crews... ${currentCount} of ${totalCount}`;
+      currentCount++;
 
-    // Return the crew names.
-    return getCrewNames(crewHtml);
+      // Return the crew names.
+      return getCrewNames(crewHtml);
+    }
+    catch (error) {
+      console.error(`The following error has occurred: ${error}`);
+      statusMessage.textContent = `Cannot load crew names. Try refreshing the page.`;
+      return;
+    }
   }));
 
   // Wait for all of the crew data to be fetched.

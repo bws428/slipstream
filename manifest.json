@@ -10,7 +10,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://workspace.spirit.com/cvpn/https/ctweb.spirit.com/crewweb/ctwpm.aspx*"
+        "*://workspace.spirit.com/cvpn/https/ctweb.spirit.com/crewweb/ctwpm.aspx*",
+        "*://workspace.spirit.com/cvpn/https/ctweb.spirit.com/CrewWeb/ctwpm.aspx*"
       ],
       "css": [
         "dist/style.css"
