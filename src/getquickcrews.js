@@ -7,10 +7,13 @@ import { capitalize } from "./helpers";
  */
 export default function getQuickCrews(hdnCrewData) {
 
-  // First, split hdnCrewData in half, so we have a string for each crewmember
+  // Split hdnCrewData at ":-:", so we have a string for each crewmember.
   const crewRows = hdnCrewData.split(":-:");
+
+  // Create an array of crew data for each crewmember.
   const crewData = crewRows.map(el => el.split("::").map(el => el.trim()))
 
+  // Build the crewNames object the same way getCrewNames() does.
   const crewNames = {
     fltNum: "",
     orig: "",
@@ -18,14 +21,16 @@ export default function getQuickCrews(hdnCrewData) {
     crew: [],
   };
 
-  crewNames.crew = Array.from(crewData).map((el) => ({
-    role: el[1],
+  // Grab the relevant crew info from its array position.
+  crewNames.crew = Array.from(crewData).map((row) => ({
+    role: row[1],
     dh: "",
-    id: el[3],
-    last: capitalize(el[4]),
-    first: capitalize(el[5]),
+    id: row[3],
+    last: capitalize(row[4]),
+    first: capitalize(row[5]),
   }));
 
-  // Return an array of objects, since that's what addCrews() expects.
+  // Return an array with crewNames object(s), since that's
+  // what addCrews() expects as an input parameter.
   return [crewNames];
 }
