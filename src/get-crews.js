@@ -5,7 +5,7 @@ import { capitalize } from "./helpers";
  * @param {string} hdnCrewData - The "hidden crew data" string.
  * @return {Array} The crew names array.
  */
-export default function getQuickCrews(hdnCrewData) {
+export default function getCrews(hdnCrewData) {
 
   // Split hdnCrewData at ":-:", so we have a string for each crewmember.
   const crewRows = hdnCrewData.split(":-:");

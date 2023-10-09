@@ -1,4 +1,4 @@
-import getCrewNames from "./getcrewnames";
+import getCrewNames from "./get-crew-names";
 
 /**
  * Get a list of crew data for all flight segments in the pairing.
@@ -6,7 +6,7 @@ import getCrewNames from "./getcrewnames";
  * @param {HTMLDivElement} statusMessage - Contains any status messages.
  * @return {Promise} A list of crew data.
  */
-export default async function getCrews(crewUrls, statusMessage) {
+export default async function getCrewsAsync(crewUrls, statusMessage) {
   // Create a counter to track the number of crews that have been fetched.
   let currentCount = 2; // a hack so that the counter reaches the totalCount
   const totalCount = crewUrls.length;

@@ -1,12 +1,12 @@
 "use strict";
 
 import { ready, buildCsv, downloadCsv } from "./helpers";
-import getFlights from "./getflights";
-import getQuickCrews from "./getquickcrews";
-import getCrewUrls from "./getcrewurls";
-import getCrews from "./getcrews";
-import addCrews from "./addcrews";
-import buildTable from "./buildtable";
+import getFlights from "./get-flights";
+import getCrewUrls from "./get-crew-urls";
+import getCrews from "./get-crews";
+import getCrewsAsync from "./get-crews-async";
+import addCrews from "./add-crews";
+import buildTable from "./build-table";
 
 // Make sure the DOM is fully loaded and ready...
 // ...using only vanilla JS
@@ -59,7 +59,7 @@ ready(() => {
 
   // The "Positions:" value should tell us if there are two pilots, rather than just one.
   // If we could grab the CA=1 and FO=1 values, and if both were TRUE, that would be the
-  // trigger to skip the getCrews async call....
+  // trigger to skip the getCrewsAsync async call....
   // OR... we can just use the ":-:" separator, as detailed below.  Less bulletproof maybe.
 
   // <TD WIDTH='460' ALIGN='LEFT'>
@@ -77,7 +77,7 @@ ready(() => {
   // If both CA and FO names are there, then we can SKIP the async call!
   const hdnCrewData = document.getElementById("hdnCREWDATA").value.toString();
 
-  // Must wait for async getCrews() to return before doing anything else.
+  // Must wait for async getCrewsAsync() to return before doing anything else.
   // This ensures that the flights object is populated with all of the
   // crew names before the buildTable() and buildCsv() functions are called.
   (async () => {
@@ -89,14 +89,14 @@ ready(() => {
     // If only ONE pilot is listed, there will NOT be a ":-:" separator.
     if (hdnCrewData.search(":-:") !== -1) {
       // Get the crew names (quickly!) from the current page.
-      crews = getQuickCrews(hdnCrewData);
+      crews = getCrews(hdnCrewData);
     }
     else {
       // Update status message.
       statusMessage.textContent = `Loading crews... 1 of ${urls.length}`;
 
       // Fetch the crew names asynchronously (from the Flight Leg Crew pages).
-      crews = await getCrews(urls, statusMessage);
+      crews = await getCrewsAsync(urls, statusMessage);
     }
     
     // Add the crew names to the flights object.
