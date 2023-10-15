@@ -48,3 +48,10 @@ Finally, build the `dist/slipstream.js` file for testing in your browser:
 ```shell
 npm run build
 ```
+
+Unit tests are available for some of the modules by running:
+
+```shell
+npm run test
+```
+
